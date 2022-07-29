@@ -1,5 +1,5 @@
 import mysql from 'mysql2';
-import { DatabaseEnv } from '../../models/_.loaders.js';
+import { DatabaseEnv } from '../../models/_.loader.js';
 
 export default class DatabaseProvider {
 

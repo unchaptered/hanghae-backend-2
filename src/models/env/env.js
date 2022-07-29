@@ -1,4 +1,4 @@
-import { classIterator } from '../_.loaders.js';
+import { classIterator } from '../_.loader.js';
 import BasicEnv from './basic.env.js';
 import DatabaseEnv from './database.env.js';
 

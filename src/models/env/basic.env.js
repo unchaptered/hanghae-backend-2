@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { classIterator } from '../_.loaders.js';
+import { classIterator } from '../_.loader.js';
 
 export default class BasicEnv {
 
