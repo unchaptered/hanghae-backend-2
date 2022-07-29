@@ -20,14 +20,14 @@ export default class App {
      * @param {*} PORT 
      * @returns `Express Instance`
      */
-    static getAppInstance(MODE, PORT) {
+    static getAppInstance(basicEnv) {
 
         if (this.app) return this.app;
 
         this.app = Express();
 
-        this.app.listen(PORT, () => {
-            if (MODE !== 'test') console.log(`Server is running on ${MODE}`);
+        this.app.listen(basicEnv.PORT, () => {
+            if (basicEnv.MODE !== 'test') console.log(`Server is running on ${basicEnv.PORT}, ${basicEnv.MODE}`);
         });
 
         return this.app;
