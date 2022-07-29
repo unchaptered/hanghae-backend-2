@@ -9,7 +9,7 @@ export default class BasicEnv {
 
     constructor() {
         this.MODE = process.env.NODE_ENV;
-        this.PORT = process.env.PORT;
+        this.PORT = +process.env.PORT;
         this[Symbol.iterator] = classIterator;
     }
 
