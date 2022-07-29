@@ -1,4 +1,4 @@
-import { Env } from '../../models/_.loaders.js';
+import { Env } from '../../models/_.loader.js';
 
 
 export default class EnvProvider {
