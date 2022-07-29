@@ -1,4 +1,5 @@
 import Env from './env.js';
+import Sql from './sql.js';
 import App from './server.js';
 
 
@@ -12,7 +13,12 @@ import App from './server.js';
      */
     () => {
 
-        const { MODE, PORT } = Env.getEnvInstance();
+        const {
+            MODE, PORT,
+            HOST, USER, DATABASE, WAIT_FOR_CONNECTION, CONNECTION_LIMIT
+        } = Env.getEnvInstance();
+
+        const pool = Sql.setConnection(HOST, USER, DATABASE, WAIT_FOR_CONNECTION, CONNECTION_LIMIT);
         const app = App.getAppInstance(MODE, PORT);
     
     }
