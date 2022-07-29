@@ -8,3 +8,5 @@ coverage/
 *.env
 *.env.*
 .gitignore
+
+!src/models/env/*.env.js
