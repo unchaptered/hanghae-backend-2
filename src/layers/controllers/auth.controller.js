@@ -1,29 +1,92 @@
-export const join = (req, res, next) => {
+import Joi from 'joi';
+import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
+import { UserEntity } from '../../models/entity/_.export.js';
+import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
 
-    return res.json('join');
+
+export const join = async (req, res, next) => {
+
+    try {
+
+        const userJoinDto = new UserJoinDto({ ...req.body });
+        const userJoi = userJoinDto._getJoiInstance();
+        
+        const joiValidator = new JoiValidator();
+        const result = await joiValidator.validate(userJoinDto, {
+            nickname: userJoi.nickname.required(),
+            password: userJoi.password.required(),
+            passwordConfirm: Joi.ref('password')
+        });
+        
+        const formFactory = new FormFactory();
+        return res.json(
+            formFactory.getSuccessForm('회원가입에 성공하셨습니다.', result ));
+
+    } catch (err) {
+
+        res.locals.error = err;
+
+        return next();
+        
+    }
 
 };
 
-export const login = (req, res, next) => {
+export const login = async (req, res, next) => {
 
-    return res.json('login');
+    try {
+
+        const userLoginDto = new UserLoginDto({ ...req.body });
+        const userJoi = userLoginDto._getJoiInstance();
+
+        const joiValidator = new JoiValidator();
+        const result = await joiValidator.validate(userLoginDto, {
+            nickname: userJoi.nickname.required(),
+            password: userJoi.password.required()
+        });
+
+        const formFactory = new FormFactory();
+        return res.json(
+            formFactory.getSuccessForm('로그인에 성공하셨습니다.', result ));
+
+    } catch (err) {
+
+        res.locals.error = err;
+
+        return next();
+        
+    }
 
 };
+
+export const isExistsUser = (req, res, next) => {
+
+    const formFactory = new FormFactory();
+
+    return res.json(formFactory.getSuccessForm('isExistsUser'));
+    
+}
 
 export const myProfile = (req, res, next) => {
 
-    return res.json('myProfile');
+    const formFactory = new FormFactory();
+
+    return res.json(formFactory.getSuccessForm('myProfile'));
 
 };
 
 export const myBoard = (req, res, next) => {
 
-    return res.json('myBoard');
+    const formFactory = new FormFactory();
+
+    return res.json(formFactory.getSuccessForm('myBoard'));
 
 };
 
 export const myComment = (req, res, next) => {
 
-    return res.json('myComment');
+    const formFactory = new FormFactory();
+
+    return res.json(formFactory.getSuccessForm('myComment'));
 
 };
