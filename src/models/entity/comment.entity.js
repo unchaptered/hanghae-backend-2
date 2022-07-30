@@ -12,7 +12,9 @@ export default class CommentEntity extends BaseEntity {
     author;
     context;
 
-    constructor(author, context) {
+    constructor({ author, context }) {
+
+        super();
 
         this.author = author;
         this.context = context;
