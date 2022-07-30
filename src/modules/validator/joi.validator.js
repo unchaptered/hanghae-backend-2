@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { CommentEntity, PostEntity, UserEntity } from '../../models/entity/_.export.js';
+import { CommentEntity, BoardEntity, UserEntity } from '../../models/entity/_.export.js';
 import { BadRequestException, BadValidateException, UnkownServerError } from '../../models/_.loader.js';
 
 import { BaseModule } from '../_.loader.js';
@@ -13,7 +13,6 @@ export default class JoiValidator extends BaseModule {
     async validate(dtoInstance, joiInstance) {
 
         try {
-            console.log(dtoInstance);
 
             return await Joi.object(joiInstance).validateAsync({ ...dtoInstance });
 
