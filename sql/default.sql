@@ -12,7 +12,8 @@ DROP TABLE IF EXISTS user;
 CREATE TABLE IF NOT EXISTS user (
 
     nickname    VARCHAR(50)     NOT NULL    PRIMARY KEY,
-    password    VARCHAR(40)     NOT NULL
+    password    VARCHAR(255)     NOT NULL
+    -- server 에서는 30 자 제한입니다.
     
 );
 
