@@ -1,4 +1,4 @@
-import UserEntity from '../entity/user.entity.js';
+import { UserEntity } from '../../entity/_.export.js';
 
 /**
  * 
