@@ -20,5 +20,13 @@ export default class PostEntity extends BaseEntity {
         this.context = context;
 
     }
+    
+    _getJoiInstance() {
+        return {
+            author: Joi.string().min(1).max(50),
+            title: Joi.string().min(1).max(100),
+            context: Joi.string().min(1).max(300)
+        }
+    }
 
 }

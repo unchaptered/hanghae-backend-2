@@ -1,3 +1,4 @@
+import Joi from 'joi';
 import { BaseEntity } from './_.export.js';
 
 /**
@@ -16,6 +17,13 @@ export default class CommentEntity extends BaseEntity {
         this.author = author;
         this.context = context;
 
+    }
+
+    _getJoiInstance() {
+        return {
+            author: Joi.string().min(1).max(50),
+            context: Joi.string().min(1).max(300)
+        }
     }
 
 
