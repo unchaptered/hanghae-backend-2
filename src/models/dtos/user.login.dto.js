@@ -13,9 +13,12 @@ export default class UserJoinDto extends UserEntity {
     password;
     passwordConfirm;
 
-    constructor(nickname, password, passwordConfirm) {
+    constructor({ nickname, password, passwordConfirm }) {
 
-        supser(nickname, password);
+        super({ nickname, password });
+
+        this.nickname = nickname;
+        this.password = password;
         this.passwordConfirm = passwordConfirm;
         
     }

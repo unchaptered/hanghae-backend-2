@@ -1,7 +1,4 @@
-/**
- * @property `nickanme` 사용자 이름
- * @property `password` 비밀 번호
- */
+import Joi from 'joi';
 import { BaseEntity } from './_.export.js';
 
 /**
@@ -15,7 +12,9 @@ export default class UserEntity extends BaseEntity {
     nickname;
     password;
 
-    constructor(nickname, password) {
+    constructor({ nickname, password }) {
+
+        super();
 
         this.nickname = nickname;
         this.password = password;

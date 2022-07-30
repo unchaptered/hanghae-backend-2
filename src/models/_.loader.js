@@ -5,7 +5,7 @@ import DatabaseEnv from './env/database.env.js';
 import classIterator from './iterator/class.iterator.js';
 
 import { Form, SuccessForm, FailureForm } from './form/form.js';
-import { CustomException, BadRequestException, UnauthorizedException, NotFoundException, UnkownServerError } from './exception/custom.exception.js';
+import { CustomException, BadRequestException, BadValidateException, UnauthorizedException, NotFoundException, UnkownServerError } from './exception/custom.exception.js';
 
 
 export {
@@ -21,6 +21,7 @@ export {
 
     CustomException,
     BadRequestException,
+    BadValidateException,
     UnauthorizedException,
     NotFoundException,
     UnkownServerError,

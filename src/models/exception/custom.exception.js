@@ -23,6 +23,18 @@ export class BadRequestException extends CustomException {
 
 }
 
+export class BadValidateException extends CustomException {
+
+    constructor(message) {
+
+        super(message);
+
+        this.name = 'BadValidateException';
+        this.statusCode = 400;
+        
+    }
+}
+
 export class UnauthorizedException extends CustomException {
     
     constructor(message) {

@@ -12,9 +12,12 @@ export default class UserLoginDto  extends UserEntity {
     password;
 
 
-    constructor(nickname, password) {
+    constructor({ nickname, password }) {
 
-        super(nickname, password);
+        super({ nickname, password });
+
+        this.nickname = nickname;
+        this.password = password;
 
     }
     
