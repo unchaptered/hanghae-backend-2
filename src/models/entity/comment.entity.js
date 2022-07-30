@@ -1,8 +1,12 @@
+import { BaseEntity } from './_.export.js';
+
 /**
+ * @extends BaseEntity
+ * @method _getJoiInstance
  * @property `author` 작성자
  * @property `context` 댓글 내용
  */
-export default class CommentEntity {
+export default class CommentEntity extends BaseEntity {
 
     author;
     context;
@@ -13,5 +17,6 @@ export default class CommentEntity {
         this.context = context;
 
     }
+
 
 }
