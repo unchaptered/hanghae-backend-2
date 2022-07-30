@@ -7,13 +7,15 @@ import { BaseEntity } from './_.export.js';
  * @property `title` 게시글 제목
  * @property `context` 게시글 내용
  */
-export default class PostEntity extends BaseEntity {
+export default class BoardEntity extends BaseEntity {
 
     title;
     author;
     context;
 
-    constructor(title, author, context) {
+    constructor({ title, author, context }) {
+
+        super();
         
         this.title = title;
         this.author = author;
