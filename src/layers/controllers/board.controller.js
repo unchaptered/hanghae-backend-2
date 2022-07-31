@@ -82,6 +82,7 @@ export const putBoardById = async (req, res, next) => {
     }
 }
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const delBoardById = async (req, res, next) => {
 
     try {
@@ -105,6 +106,7 @@ export const delBoardById = async (req, res, next) => {
 
 }
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const increaseBoardLike = (req, res, next) => {
     return res.json('increase board like');
 }
