@@ -2,11 +2,9 @@ import Joi from 'joi'
 import BoardEntity from '../../entity/board.entity.js';
 
 /**
- * @deprecated
- * 
  * @extends BoardEntity
  * @method _getJoiInstance
- * @property { number } boardId?
+ * @property { number } boardId
  * @property { string } author
  * @property { string } title
  * @property { string } context
@@ -47,11 +45,11 @@ export default class BoardDto extends BoardEntity {
 
     /**
      * @override
-     * @returns { {  boardId: Joi.number, author: Joi.string, title: Joi.string, context: Joi.string } } joiInstance
+     * @returns { {  boardId: Joi.number.required(), author: Joi.string, title: Joi.string, context: Joi.string } } joiInstance
      */
     _getJoiInstance() {
         return {
-            boardId: Joi.number(),
+            boardId: Joi.number().required(),
             author: Joi.string().min(1).max(50).required(),
             title: Joi.string().min(1).max(100).required(),
             context: Joi.string().min(1).max(300).required()
