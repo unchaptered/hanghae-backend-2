@@ -3,9 +3,9 @@ DROP DATABASE IF EXISTS hanghae_blog;
 CREATE DATABASE IF NOT EXISTS hanghae_blog;
 USE hanghae_blog;
 
-DROP TABLE IF EXISTS post_like_list;
+DROP TABLE IF EXISTS board_like_list;
 DROP TABLE IF EXISTS comment_like_list;
-DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS board;
 DROP TABLE IF EXISTS comment;
 DROP TABLE IF EXISTS user;
 
@@ -17,19 +17,19 @@ CREATE TABLE IF NOT EXISTS user (
     
 );
 
-CREATE TABLE IF NOT EXISTS post (
+CREATE TABLE IF NOT EXISTS board (
 
-    post_id     SERIAL          NOT NULL    PRIMARY KEY,
+    board_id    SERIAL          NOT NULL    PRIMARY KEY,
     author      VARCHAR(50)     NOT NULL	REFERENCES user (nickname),
     title       VARCHAR(100)    NOT NULL,
     context     VARCHAR(300)    NOT NULL
 
 );
 
-CREATE TABLE IF NOT EXISTS post_like_list (
+CREATE TABLE IF NOT EXISTS board_like_list (
 
-	post_like_list	SERIAL			PRIMARY KEY,
-    post_id     	INTEGER         NOT NULL	REFERENCES post(post_id),
+	board_like_list	SERIAL			PRIMARY KEY,
+    board_id     	INTEGER         NOT NULL	REFERENCES board(board_id),
     like_list   	JSON
     
 );
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS comment (
 CREATE TABLE IF NOT EXISTS comment_like_list (
 
 	comment_like_list	SERIAL			NOT NULL	PRIMARY KEY,
-    post_id     		INTEGER         NOT NULL	REFERENCES post (post_id),
+    board_id     		INTEGER         NOT NULL	REFERENCES board (board_id),
     like_list   		JSON
     
 );
