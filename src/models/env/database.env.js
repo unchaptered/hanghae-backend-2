@@ -22,6 +22,9 @@ export default class DatabaseEnv {
     DATABASE;
 
     /** @type { string } */ 
+    PASSWORD;
+
+    /** @type { string } */ 
     WAIT_FOR_CONNECTION;
 
     /** @type { string } */ 
@@ -33,6 +36,7 @@ export default class DatabaseEnv {
         this.HOST = process.env.HOST;
         this.USER = process.env.USER;
         this.DATABASE = process.env.DATABASE;
+        this.PASSWORD = process.env.PASSWORD;
         this.WAIT_FOR_CONNECTION = process.env.WAIT_FOR_CONNECTION;
         this.CONNECTION_LIMIT = +process.env.CONNECTION_LIMIT;
         this[Symbol.iterator] = classIterator;

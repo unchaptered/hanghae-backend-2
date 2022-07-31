@@ -1,3 +1,4 @@
+import { DatabaseProvider } from '../../modules/_.loader.js';
 import { CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
 
 /**
