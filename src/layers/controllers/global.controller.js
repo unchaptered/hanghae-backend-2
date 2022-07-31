@@ -1,6 +1,6 @@
 import { NotFoundException } from '../../models/_.loader.js';
 
-
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const NotFoundedPage = (req, res, next) => {
 
     const pathname = req.baseUrl === '' ? req.path : req.baseUrl;

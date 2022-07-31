@@ -13,6 +13,7 @@ export default class UserJoinDto extends UserEntity {
     password;
     passwordConfirm;
 
+    /** @param {{ nickname: string, password: string, password: string }} IUserJoinDto */
     constructor({ nickname, password, passwordConfirm }) {
 
         super({ nickname, password });

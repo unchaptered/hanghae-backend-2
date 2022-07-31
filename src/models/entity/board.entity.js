@@ -1,6 +1,7 @@
 import { BaseEntity } from './_.export.js';
 
 /**
+ * 
  * @extends BaseEntity
  * @method _getJoiInstance
  * @property `author` 작성자
@@ -9,10 +10,16 @@ import { BaseEntity } from './_.export.js';
  */
 export default class BoardEntity extends BaseEntity {
 
+    /** @type { string } */
     title;
+    
+    /** @type { string } */
     author;
+    
+    /** @type { string } */
     context;
 
+    /** @param {{ title: string, author: string, context: string }} IBoardEntity */
     constructor({ title, author, context }) {
 
         super();
@@ -23,6 +30,10 @@ export default class BoardEntity extends BaseEntity {
 
     }
     
+    /**
+     * @override
+     * @returns { {  author: Joi.string, title: Joi.string, context: Joi.string } } joiInstance
+     */
     _getJoiInstance() {
         return {
             author: Joi.string().min(1).max(50),

@@ -3,7 +3,7 @@ import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
 import { UserEntity } from '../../models/entity/_.export.js';
 import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
 
-
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const join = async (req, res, next) => {
 
     try {
@@ -32,6 +32,7 @@ export const join = async (req, res, next) => {
 
 };
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const login = async (req, res, next) => {
 
     try {
@@ -59,6 +60,7 @@ export const login = async (req, res, next) => {
 
 };
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const isExistsUser = (req, res, next) => {
 
     const formFactory = new FormFactory();
@@ -67,6 +69,7 @@ export const isExistsUser = (req, res, next) => {
     
 }
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const myProfile = (req, res, next) => {
 
     const formFactory = new FormFactory();
@@ -75,6 +78,7 @@ export const myProfile = (req, res, next) => {
 
 };
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const myBoard = (req, res, next) => {
 
     const formFactory = new FormFactory();
@@ -83,6 +87,7 @@ export const myBoard = (req, res, next) => {
 
 };
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const myComment = (req, res, next) => {
 
     const formFactory = new FormFactory();

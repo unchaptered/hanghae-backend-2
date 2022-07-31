@@ -26,20 +26,20 @@ export default class BoardDto extends BoardEntity {
 
     }
     
-    /**
-     * @param {number} boardId
-     */
+    /** @param {number} boardId */
     set setBoardId(boardId) {
         this.boardId = boardId;
     }
 
-    /**
-     * @return {number} boardId
-     */
+    /** @return {number} boardId */
     get getBoardId() {
         return this.boardId;
     }
 
+    /**
+     * @override
+     * @returns { {  boardId: Joi.number, author: Joi.string, title: Joi.string, context: Joi.string } } joiInstance
+     */
     _getJoiInstance() {
         return {
             boardId: Joi.number(),

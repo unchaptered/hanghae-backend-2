@@ -8,10 +8,11 @@ import { BaseEntity } from './_.export.js';
  * @property `password` 비밀번호
  */
 export default class UserEntity extends BaseEntity {
-    
+
     nickname;
     password;
 
+    /** @param {{ nickname: string, password: string }} IUserEntity */
     constructor({ nickname, password }) {
 
         super();
@@ -21,6 +22,10 @@ export default class UserEntity extends BaseEntity {
         
     }
 
+    /**
+     * @override
+     * @returns { {  nickname: Joi.string, password: Joi.string } } joiInstance
+     */
     _getJoiInstance() {
         return {
             nickname: Joi.string().min(3).max(50),

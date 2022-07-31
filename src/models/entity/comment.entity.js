@@ -12,6 +12,7 @@ export default class CommentEntity extends BaseEntity {
     author;
     context;
 
+    /** @param {{ author: string, context: string }} IBoardEntity */
     constructor({ author, context }) {
 
         super();
@@ -21,6 +22,10 @@ export default class CommentEntity extends BaseEntity {
 
     }
 
+    /**
+     * @override
+     * @returns { {  author: Joi.string, context: Joi.string } } joiInstance
+     */
     _getJoiInstance() {
         return {
             author: Joi.string().min(1).max(50),

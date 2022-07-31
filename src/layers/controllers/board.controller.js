@@ -3,19 +3,19 @@ import { BoardEntity } from '../../models/entity/_.export.js';
 import { BoardDto } from '../../models/dtos/_.export.js';
 import Joi from 'joi';
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const getAllBoard = (req, res, next) => {
     return res.json('get all board');
 }
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const postBoard = async (req, res, next) => {
 
     try {
 
         const boardDto = new BoardDto({ ...req.body });
+        const result = await new JoiValidator().validate(boardDto, boardDto._getJoiInstance());
 
-        const joiValidator = new JoiValidator();
-        const result = await joiValidator.validate(boardDto, boardDto._getJoiInstance());
-        
         const formFactory = new FormFactory();
         return res.json(
             formFactory.getSuccessForm('게시글 작성에 성공하셨습니다.', result));
@@ -30,6 +30,7 @@ export const postBoard = async (req, res, next) => {
 
 }
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const getBoardById = async (req, res, next) => {
 
     try {
@@ -53,6 +54,7 @@ export const getBoardById = async (req, res, next) => {
 
 }
 
+/** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const putBoardById = async (req, res, next) => {
 
     try {
