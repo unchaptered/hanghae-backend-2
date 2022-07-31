@@ -1,5 +1,6 @@
+import { CommentService } from '../services/_.export.js';
 import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
-import { CommentDto } from '../../models/dtos/_.export.js';
+import { CommentDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const getAllCommentByBoardId = async (req, res, next) => {
@@ -10,9 +11,10 @@ export const postComment = async (req, res, next) => {
 
     try {
 
-        const commentDto = new CommentDto({ ...req.body });
+        const commentPostDto = new CommentPostDto({ ...req.body });
+        await new JoiValidator().validate(commentPostDto, commentPostDto._getJoiInstance());
         
-        const result = await new JoiValidator().validate(commentDto, commentDto._getJoiInstance());
+        const result = await CommentService.postComment(commentPostDto);
         
         const formFactory = new FormFactory();
         return res.json(
@@ -33,15 +35,13 @@ export const putCommentByCommentId = async (req, res, next) => {
 
     try {
 
-        const { commentId } = req.params;
-        const commentDto = new CommentDto({ ...req.body });
-        commentDto.setCommentId = commentId;
-
-        const commnetJoi = commentDto._getJoiInstance();
-        commnetJoi.commentId = commnetJoi.commentId.required();
+        const commentPutDto = new CommentPutDto({ ...req.body });
+        commentPutDto.setCommentId = req.params.commentId;
 
         const joiValidator = new JoiValidator();
-        const result = await joiValidator.validate(commentDto, commnetJoi);
+        await joiValidator.validate(commentPutDto, commentPutDto._getJoiInstance());
+
+        const result = await CommentService.putCommentByCommentId(commentPutDto);
 
         const formFactory = new FormFactory();
         return res.json(

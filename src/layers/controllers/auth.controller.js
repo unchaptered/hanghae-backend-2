@@ -1,4 +1,5 @@
 import Joi from 'joi';
+import { AuthService } from '../services/_.export.js';
 import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
 import { UserEntity } from '../../models/entity/_.export.js';
 import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
@@ -12,11 +13,14 @@ export const join = async (req, res, next) => {
         const userJoi = userJoinDto._getJoiInstance();
         
         const joiValidator = new JoiValidator();
-        const result = await joiValidator.validate(userJoinDto, {
+
+        await joiValidator.validate(userJoinDto, {
             nickname: userJoi.nickname.required(),
             password: userJoi.password.required(),
             passwordConfirm: Joi.ref('password')
         });
+
+        const result = await AuthService.join(result);
         
         const formFactory = new FormFactory();
         return res.json(
@@ -41,10 +45,12 @@ export const login = async (req, res, next) => {
         const userJoi = userLoginDto._getJoiInstance();
 
         const joiValidator = new JoiValidator();
-        const result = await joiValidator.validate(userLoginDto, {
+        await joiValidator.validate(userLoginDto, {
             nickname: userJoi.nickname.required(),
             password: userJoi.password.required()
         });
+
+        const result = await AuthService.login(userLoginDto);
 
         const formFactory = new FormFactory();
         return res.json(
