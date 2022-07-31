@@ -15,11 +15,11 @@ export default class EnvProvider {
     constructor() {}
 
     /** @returns { Env } : env */
-    static async getEnvInstance() {
+    static getEnvInstance() {
 
         if (this.env) return this.env;
 
-        this.env = await this.validateEnvInstance(new Env());
+        this.env = this.validateEnvInstance(new Env());
 
         return this.env;
 
@@ -30,7 +30,7 @@ export default class EnvProvider {
      * @returns { Env } env
      * @throws { Error } 
      */
-    static async validateEnvInstance(env) {
+    static validateEnvInstance(env) {
 
         for (const val of env) {
 
