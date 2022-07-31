@@ -4,16 +4,23 @@ import BoardEntity from '../../entity/board.entity.js';
 /**
  * @extends BoardEntity
  * @method _getJoiInstance
- * @property {number} boardId?
- * @property {string} author
- * @property {string} title
- * @property {string} context
+ * @property { number } boardId?
+ * @property { string } author
+ * @property { string } title
+ * @property { string } context
  */
 export default class BoardDto extends BoardEntity {
 
+    /** @type { number } boardId */
     boardId;
+
+    /** @type { string } author */
     author;
+
+    /** @type { string } title */
     title;
+
+    /** @type { string } context */
     context;
 
     constructor({ author, title, context }) {
