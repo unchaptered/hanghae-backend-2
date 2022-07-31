@@ -1,6 +1,5 @@
 import { Env } from '../../models/_.loader.js';
 
-EnvProvider.env;
 /**
  * 안정적인 Env 공급자 클래스 입니다.
  * 

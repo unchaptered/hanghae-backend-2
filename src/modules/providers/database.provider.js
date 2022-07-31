@@ -1,5 +1,4 @@
 import mysql from 'mysql2';
-import Pool from 'mysql2/typings/mysql/lib/Pool.js';
 import { DatabaseEnv } from '../../models/_.loader.js';
 
 /**
