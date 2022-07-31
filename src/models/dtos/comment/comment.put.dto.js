@@ -2,15 +2,13 @@ import Joi from 'joi';
 import { CommentEntity } from '../../entity/_.export.js';
 
 /**
- * @deprecated
- * 
- * @extends CommentDto
+ * @extends CommentEntity
  * @method _getJoiInstance
  * @property { number } commentId
  * @property { string } author
  * @property { string } context
  */
-export default class CommentDto extends CommentEntity {
+export default class CommentPutDto extends CommentEntity {
 
     /** @type { number } commentId */
     commentId;
@@ -21,7 +19,7 @@ export default class CommentDto extends CommentEntity {
     /** @type { string } context */
     context;
 
-    /** @param {{ author: string, context: string }} ICommentDto */
+    /** @param {{ author: string, context: string }} ICommentPutDto */
     constructor({ author, context }) {
 
         this.author = author;
@@ -45,7 +43,7 @@ export default class CommentDto extends CommentEntity {
      */
     _getJoiInstance() {
         return {
-            commentId: Joi.number(),
+            commentId: Joi.number().required(),
             author: Joi.string().min(1).max(50).required(),
             context: Joi.string().min(1).max(300).required()
         }
