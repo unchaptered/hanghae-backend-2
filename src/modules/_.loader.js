@@ -1,6 +1,7 @@
 import BaseModule from './base/base.module.js';
 
 import EnvProvider from './providers/env.provider.js';
+import JwtProvider from './providers/jwt.provider.js';
 import BcryptProvider from './providers/bcrypt.provider.js';
 import DatabaseProvider from './providers/database.provider.js';
 
@@ -22,6 +23,7 @@ export {
     BaseModule,
     
     EnvProvider,
+    JwtProvider,
     BcryptProvider,
     DatabaseProvider,
 
