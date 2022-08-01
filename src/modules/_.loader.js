@@ -1,6 +1,7 @@
 import BaseModule from './base/base.module.js';
 
 import EnvProvider from './providers/env.provider.js';
+import BcryptProvider from './providers/bcrypt.provider.js';
 import DatabaseProvider from './providers/database.provider.js';
 
 import FormFactory from './factories/form.factory.js';
@@ -21,6 +22,7 @@ export {
     BaseModule,
     
     EnvProvider,
+    BcryptProvider,
     DatabaseProvider,
 
     FormFactory,
