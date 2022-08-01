@@ -1,4 +1,5 @@
 import Env from './env/env.js';
+import JwtEnv from './env/jwt.env.js';
 import BasicEnv from './env/basic.env.js';
 import DatabaseEnv from './env/database.env.js';
 import BcryptEnv from './env/bcrypt.env.js';
@@ -15,6 +16,7 @@ export {
 
     // Env (@@iterable)
     Env,
+    JwtEnv,
     BasicEnv,
     BcryptEnv,
     DatabaseEnv,

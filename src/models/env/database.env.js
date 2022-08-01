@@ -33,12 +33,12 @@ export default class DatabaseEnv {
     [Symbol.iterator];
 
     constructor() {
-        this.HOST = process.env.HOST;
-        this.USER = process.env.USER;
-        this.DATABASE = process.env.DATABASE;
-        this.PASSWORD = process.env.PASSWORD;
-        this.WAIT_FOR_CONNECTION = process.env.WAIT_FOR_CONNECTION;
-        this.CONNECTION_LIMIT = +process.env.CONNECTION_LIMIT;
+        this.HOST = process.env.MYSQL_HOST;
+        this.USER = process.env.MYSQL_USER;
+        this.DATABASE = process.env.MYSQL_DATABASE;
+        this.PASSWORD = process.env.MYSQL_PASSWORD;
+        this.WAIT_FOR_CONNECTION = process.env.MYSQL_WAIT_FOR_CONNECTION;
+        this.CONNECTION_LIMIT = +process.env.MYSQL_CONNECTION_LIMIT;
         this[Symbol.iterator] = classIterator;
     }
 

@@ -15,7 +15,7 @@ export default class BcryptEnv {
 
     constructor() {
         
-        this.SALT = +process.env.SALT;
+        this.SALT = +process.env.BCRYPT_SALT;
         this[Symbol.iterator] = classIterator;
 
     }
