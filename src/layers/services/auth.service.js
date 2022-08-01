@@ -1,6 +1,6 @@
-import { ConflictException, CustomException, UnkownServerError } from '../../models/_.loader.js';
+import { BadRequestException, ConflictException, CustomException, UnkownServerError } from '../../models/_.loader.js';
 import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
-import { DatabaseProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
+import { DatabaseProvider, BcryptProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
 
 /** @param { UserJoinDto } userJoinDto */
 export const join = async (userJoinDto) => {
@@ -9,8 +9,11 @@ export const join = async (userJoinDto) => {
     const queryBulider = new QueryBuilder();
     const userQueryBuilder = queryBulider.getUserQueryBulider();
 
+    const bcryptProvider = new BcryptProvider();
+    const hashedPassword = await bcryptProvider.hashPassword(userJoinDto.password)
+
     const isExistsQuery = userQueryBuilder.isExists(userJoinDto.nickname);
-    const createQuery = userQueryBuilder.createUser(userJoinDto.nickname, userJoinDto.password);
+    const createQuery = userQueryBuilder.createUser(userJoinDto.nickname, hashedPassword);
 
     try {
 
@@ -27,7 +30,7 @@ export const join = async (userJoinDto) => {
         const isCreated = createResult[0]?.affectedRows >= 1;
         if (!isCreated) throw new UnkownServerError('알 수 없는 잉유로 회원가입에 실패하였습니다.');
         
-        connection.query(queryBulider.denyChanges());
+        connection.query(queryBulider.applyChanges());
         connection.release();
 
         return userJoinDto;
@@ -56,18 +59,19 @@ export const login = async (userLoginDto) => {
 
     try {
 
-        connection.query(QueryBuilder.startTransaction());
+        connection.query(queryBulider.startTransaction());
 
         const [ existsResult, getResult ] = await Promise.all([
             (async () => await connection.query(isExistsQuery))(),
             (async () => await connection.query(getQuery))(),
         ]);
-
+        
         const isExists = Boolean(existsResult[0][0]?.isExists);
-        if (!isExists) throw new ConflictException(`${userJoinDto.nickname} 과 일치하는 사용자가 존재하지 않습니다.`);
+        if (!isExists) throw new ConflictException(`${userLoginDto.nickname} 과 일치하는 사용자가 존재하지 않습니다.`);
 
-        console.log(getQuery);
-
+        const hashedPassword = getResult[0][0]?.password;
+        const isCorrectPassword = await new BcryptProvider().isCorrectPassword(userLoginDto.password, hashedPassword);
+        if (!isCorrectPassword) throw new BadRequestException(`${userLoginDto.nickname} 의 비밀번호가 일치하지 않습니다.`);
 
         connection.query(queryBulider.denyChanges());
         connection.release();
