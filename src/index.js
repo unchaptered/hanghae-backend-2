@@ -1,7 +1,6 @@
-// import Env from './env.js';
 import App from './server.js';
 
-import { EnvProvider, BcryptProvider, DatabaseProvider } from './modules/_.loader.js';
+import { EnvProvider, BcryptProvider, JwtProvider, DatabaseProvider } from './modules/_.loader.js';
 
 (
     /**
@@ -16,8 +15,9 @@ import { EnvProvider, BcryptProvider, DatabaseProvider } from './modules/_.loade
         try {
 
             const env = EnvProvider.getEnvInstance();
-            
+
             BcryptProvider.initialize(env.bcryptEnv);
+            JwtProvider.initialize(env.jwtEnv);
 
             const pool = DatabaseProvider.getConnection(env.databaseEnv);
             const result = await DatabaseProvider.validateConnection();
