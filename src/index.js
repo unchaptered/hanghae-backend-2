@@ -15,14 +15,17 @@ import { EnvProvider, DatabaseProvider } from './modules/_.loader.js';
         
         try {
 
-            const env = await EnvProvider.getEnvInstance();
+            const env = EnvProvider.getEnvInstance();
 
             const pool = DatabaseProvider.getConnection(env.databaseEnv);
+            const result = await DatabaseProvider.validateConnection();
+            
             const app = App.getAppInstance(env.basicEnv);
 
         } catch(err) {
 
-            console.log(err);
+            console.error('초기 실행 에러');
+            console.error(err);
 
         }
     
