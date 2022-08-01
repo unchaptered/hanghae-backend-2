@@ -20,13 +20,15 @@ export const join = async (req, res, next) => {
             passwordConfirm: Joi.ref('password')
         });
 
-        const result = await AuthService.join(result);
+        const result = await AuthService.join(userJoinDto);
         
         const formFactory = new FormFactory();
         return res.json(
             formFactory.getSuccessForm('회원가입에 성공하셨습니다.', result ));
 
     } catch (err) {
+
+        console.log(err);
 
         res.locals.error = err;
 
