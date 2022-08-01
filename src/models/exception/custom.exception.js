@@ -87,6 +87,16 @@ export class UnauthorizedException extends CustomException {
 
 }
 
+export class ConflictException extends CustomException {
+
+    constructor(message) {
+        super(message);
+
+        this.name = 'ConflictException';
+        this.statusCode = 403;
+    }
+    
+}
 /**
  * 찾기 과정에서 실패 - 존재하지 않는 사용자 등 - 을 받았습니다.
  * 
