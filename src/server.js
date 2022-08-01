@@ -1,9 +1,9 @@
 import Express from 'express';
 import Morgan from 'morgan';
 
-import { AuthRouter, BoardRouter, CommentRouter } from './layers/_.loader.js';
 import { exceptionMiddleware } from './modules/_.loader.js';
 import { GlobalController } from './layers/controllers/_.export.js';
+import { AuthRouter, BoardRouter, CommentRouter } from './layers/routers/_.export.js';
 
 /**
  * `App` class is craeted for single instance.
