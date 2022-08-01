@@ -1,7 +1,9 @@
 import Express from 'express';
-import { AuthRouter, BoardRouter, CommentRouter } from './layers/_.loader.js';
+import Morgan from 'morgan';
+
 import { exceptionMiddleware } from './modules/_.loader.js';
 import { GlobalController } from './layers/controllers/_.export.js';
+import { AuthRouter, BoardRouter, CommentRouter } from './layers/routers/_.export.js';
 
 /**
  * `App` class is craeted for single instance.
@@ -28,6 +30,7 @@ export default class App {
         if (this.app) return this.app;
 
         this.app = Express();
+        this.app.use(Morgan('dev'));
 
         this.app.use(Express.json());
         this.app.use(Express.urlencoded({ extended: true }));
@@ -35,10 +38,11 @@ export default class App {
         this.app.use('/auth', AuthRouter);
         this.app.use('/board', BoardRouter);
         this.app.use('/comment', CommentRouter);
+        
+        this.app.use(exceptionMiddleware);
 
         this.app.use('*', GlobalController.NotFoundedPage);
 
-        this.app.use(exceptionMiddleware);
 
         this.app.listen(basicEnv.PORT, () => {
             if (basicEnv.MODE !== 'test') console.log(`Server is running on ${basicEnv.PORT}, ${basicEnv.MODE}`);

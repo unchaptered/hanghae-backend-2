@@ -1,23 +1,36 @@
 import { Env } from '../../models/_.loader.js';
 
-
+/**
+ * 안정적인 Env 공급자 클래스 입니다.
+ * 
+ * @property { Env: { BasicEnv, DatabaseEnv } } env
+ * @static_method getEnvInstance
+ * @static_method validateEnvInstance
+ */
 export default class EnvProvider {
 
-    env;
+    /** @type { Env }*/
+    static env;
 
     constructor() {}
 
-    static async getEnvInstance() {
+    /** @returns { Env } : env */
+    static getEnvInstance() {
 
         if (this.env) return this.env;
 
-        this.env = await this.validateEnvInstance(new Env());
+        this.env = this.validateEnvInstance(new Env());
 
         return this.env;
 
     }
 
-    static async validateEnvInstance(env) {
+    /**
+     * @param { Env } env 
+     * @returns { Env } env
+     * @throws { Error } 
+     */
+    static validateEnvInstance(env) {
 
         for (const val of env) {
 

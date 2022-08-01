@@ -1,13 +1,17 @@
 import { SuccessForm, FailureForm } from '../../models/_.loader.js';
 
-
+/**
+ * `SuccessForm/FailureForm` 을 반환하기 위한 클래스입니다.
+ * 
+ * @method `getSuccessForm`
+ * @method `getFailureForm`
+ */
 export default class FormFactory {
 
     /**
-     * 
-     * @param {*} message 
-     * @param {*} result 
-     * @returns `SuccessForm` : { isSuccess, message, result }
+     * @param { string } message 
+     * @param { string } result?
+     * @returns { SuccessForm } `Form`
      */
     getSuccessForm(message, result = {}) {
 
@@ -16,10 +20,9 @@ export default class FormFactory {
     }
 
     /**
-     * 
-     * @param {*} message 
-     * @param {*} result 
-     * @returns `FailureForm` : { isSuccess, message, result }
+     * @param { string } message 
+     * @param { string } result?
+     * @returns { FailureForm } `Form`
      */
     getFailureForm(message, result = {}) {
 

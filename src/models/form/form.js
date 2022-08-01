@@ -1,9 +1,25 @@
+/**
+ * @property { boolean } isSuccess;
+ * @property { string } message;
+ * @property { Object } result;
+ */
 export class Form {
 
+    /** @type { boolean } */
     isSuccess;
+
+    /** @type { string } */
     message;
+
+    /** @type { Object } */
     result;
 
+    /**
+     * 
+     * @param { boolean } isSuccess 
+     * @param { string } message 
+     * @param { Object } result 
+     */
     constructor(isSuccess, message, result) {
 
         this.isSuccess = isSuccess;
@@ -14,6 +30,9 @@ export class Form {
 
 }
 
+/**
+ * @extends Form
+ */
 export class SuccessForm extends Form {
 
     constructor(message, result = {}) {
@@ -24,6 +43,9 @@ export class SuccessForm extends Form {
 
 }
 
+/**
+ * @extends Form
+ */
 export class FailureForm extends Form {
 
     constructor(message, result = {}) {
