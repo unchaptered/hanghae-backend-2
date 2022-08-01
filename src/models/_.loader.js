@@ -1,6 +1,7 @@
 import Env from './env/env.js';
 import BasicEnv from './env/basic.env.js';
 import DatabaseEnv from './env/database.env.js';
+import BcryptEnv from './env/bcrypt.env';
 
 import classIterator from './iterator/class.iterator.js';
 
@@ -15,6 +16,7 @@ export {
     // Env (@@iterable)
     Env,
     BasicEnv,
+    BcryptEnv,
     DatabaseEnv,
 
     // Exception
