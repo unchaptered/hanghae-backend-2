@@ -73,7 +73,7 @@ export const login = async (userLoginDto) => {
         const isCorrectPassword = await new BcryptProvider().isCorrectPassword(userLoginDto.password, hashedPassword);
         if (!isCorrectPassword) throw new BadRequestException(`${userLoginDto.nickname} 의 비밀번호가 일치하지 않습니다.`);
 
-        connection.query(queryBulider.denyChanges());
+        connection.query(queryBulider.applyChanges());
         connection.release();
         
     } catch(err) {
