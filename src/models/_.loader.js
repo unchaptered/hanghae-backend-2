@@ -1,7 +1,7 @@
 import Env from './env/env.js';
 import BasicEnv from './env/basic.env.js';
 import DatabaseEnv from './env/database.env.js';
-import BcryptEnv from './env/bcrypt.env';
+import BcryptEnv from './env/bcrypt.env.js';
 
 import classIterator from './iterator/class.iterator.js';
 
