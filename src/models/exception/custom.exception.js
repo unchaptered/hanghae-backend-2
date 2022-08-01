@@ -110,7 +110,28 @@ export class NotFoundException extends CustomException {
 }
 
 /**
- * 명확히 정의되지 않은 에러 - DB 서버 연결 중단 혹은 문법적인 오류 - 를 받았습니다.
+ * DB Pooling 중에 Connection 생성에 실패하였습니다.
+ * 
+ * @extends CustomException
+ * @property { string = 'BadDatabaseConnection' } name
+ * @property { string } message
+ * @property { string } stack
+ * @property { number = 500 } statusCode
+ */
+export class BadDatabaseConnection extends CustomException {
+
+    constructor(message) {
+
+        super(message);
+
+        this.name = 'BadDatabaseConnection';
+        this.statusCode = 500;
+
+    }
+}
+
+/**
+ * 명확히 정의되지 않은 에러 - Interval Server Error 과 유사 -를 받았습니다.
  * 
  * @extends CustomException
  * @property { string = 'UnkownServerError' } name
