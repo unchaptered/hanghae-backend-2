@@ -1,5 +1,6 @@
-import { DatabaseProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
+import { ConflictException, CustomException, UnkownServerError } from '../../models/_.loader.js';
 import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
+import { DatabaseProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
 
 /** @param { UserJoinDto } userJoinDto */
 export const join = async (userJoinDto) => {
@@ -15,12 +16,16 @@ export const join = async (userJoinDto) => {
 
         connection.query(queryBulider.startTransaction());
 
-        const [ isExists, isCreated ] = await Promise.all([
+        const [ existsResult, createResult ] = await Promise.all([
             (async () => await connection.query(isExistsQuery))(),
             (async () => await connection.query(createQuery))(),
         ]);
 
-        console.log(isExists, isCreated);
+        const isExists = Boolean(existsResult[0][0]?.isExists);
+        if (isExists) throw new ConflictException(`${userJoinDto.nickname} 과 일치하는 사용자가 존재합니다.`);
+
+        const isCreated = createResult[0]?.affectedRows >= 1;
+        if (!isCreated) throw new UnkownServerError('알 수 없는 잉유로 회원가입에 실패하였습니다.');
         
         connection.query(queryBulider.denyChanges());
         connection.release();
@@ -53,12 +58,15 @@ export const login = async (userLoginDto) => {
 
         connection.query(QueryBuilder.startTransaction());
 
-        const [ isExists, isCreated ] = await Promise.all([
+        const [ existsResult, getResult ] = await Promise.all([
             (async () => await connection.query(isExistsQuery))(),
             (async () => await connection.query(getQuery))(),
         ]);
 
-        console.log(isExists, isCreated);
+        const isExists = Boolean(existsResult[0][0]?.isExists);
+        if (!isExists) throw new ConflictException(`${userJoinDto.nickname} 과 일치하는 사용자가 존재하지 않습니다.`);
+
+        console.log(getQuery);
 
 
         connection.query(queryBulider.denyChanges());
