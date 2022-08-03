@@ -1,6 +1,9 @@
-import { CommentService } from '../services/_.export.js';
-import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
+// Models
 import { CommentDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
+
+// Modules
+import { CommentService } from '../_.layer.loader.js';
+import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const getAllCommentByBoardId = async (req, res, next) => {

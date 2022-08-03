@@ -1,9 +1,12 @@
 import Joi from 'joi';
 
-import { BoardService } from '../services/_.export.js';
-import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
+// Models
 import { BoardEntity } from '../../models/entity/_.export.js';
 import { BoardDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
+
+// Modules
+import { BoardService } from '../_.layer.loader.js';
+import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const getAllBoard = (req, res, next) => {

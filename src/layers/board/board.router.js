@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { BoardController } from '../controllers/_.export.js';
+import { BoardController } from '../_.layer.loader.js';
 import { accessGuard, refreshGuard } from '../../modules/_.loader.js';
 
 const boardRouter = Router();

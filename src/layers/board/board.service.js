@@ -1,5 +1,8 @@
-import { DatabaseProvider } from '../../modules/_.loader.js';
+// Models
 import { BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
+
+// Modules
+import { DatabaseProvider } from '../../modules/_.loader.js';
 
 /** @param { BoardPostDto } boardPostDto */
 export const postBoard = async (boardPostDto) => {

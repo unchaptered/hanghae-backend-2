@@ -1,8 +1,13 @@
 import Joi from 'joi';
-import { AuthService } from '../services/_.export.js';
-import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
+
+// Models
 import { UserEntity } from '../../models/entity/_.export.js';
 import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
+
+// Modules
+import { AuthService } from '../_.layer.loader.js';
+import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
+
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const join = async (req, res, next) => {
