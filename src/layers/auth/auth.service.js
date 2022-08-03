@@ -3,14 +3,14 @@ import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
 import { BadRequestException, ConflictException, UnkownServerError } from '../../models/_.loader.js';
 
 // Modules
-import { DatabaseProvider, BcryptProvider, JwtProvider, QueryBuilder } from '../../modules/_.loader.js';
+import { DatabaseProvider, BcryptProvider, JwtProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
 
 /** @param { UserJoinDto } userJoinDto */
 export const join = async (userJoinDto) => {
 
     const connection = await new DatabaseProvider().getConnection();
     const queryBulider = new QueryBuilder();
-    const userQueryBuilder = queryBulider.getUserQueryBulider();
+    const userQueryBuilder = new UserQueryBuilder();
 
     const bcryptProvider = new BcryptProvider();
     const hashedPassword = await bcryptProvider.hashPassword(userJoinDto.password)
@@ -55,7 +55,7 @@ export const login = async (userLoginDto) => {
     const connection = await new DatabaseProvider().getConnection();
 
     const queryBulider = new QueryBuilder();
-    const userQueryBuilder = queryBulider.getUserQueryBulider();
+    const userQueryBuilder = new UserQueryBuilder();
 
     const isExistsQuery = userQueryBuilder.isExists(userLoginDto.nickname);
     const getQuery = userQueryBuilder.getUser(userLoginDto.nickname);

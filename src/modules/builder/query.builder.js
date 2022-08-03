@@ -21,19 +21,4 @@ export default class QueryBuilder {
         return 'ROLLBACK;';
     }
 
-    /** @returns { UserQueryBulider } userQueryBuilder */
-    getUserQueryBulider() {
-        return new UserQueryBulider();
-    }
-
-    /** @returns { BoardQueryBuilder } boardQueryBuilder */
-    getBoardQueryBuilder() {
-        return new BoardQueryBuilder();
-    }
-
-    /** @returns { CommentQueryBulider } commentQueryBuilder */
-    getCommentQueryBuilder() {
-        return new CommentQueryBulider();
-    }
-
 }
