@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, CustomException, UnkownServerError } from '../../models/_.loader.js';
 import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
-import { DatabaseProvider, BcryptProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
+import { DatabaseProvider, BcryptProvider, JwtProvider, QueryBuilder } from '../../modules/_.loader.js';
 
 /** @param { UserJoinDto } userJoinDto */
 export const join = async (userJoinDto) => {
@@ -46,7 +46,7 @@ export const join = async (userJoinDto) => {
 
 }
 
-/** @param { UserLoginDto } userLoginDto */
+/** @param { UserLoginDto } userLoginDto @returns { { user: UserLoginDto, accessToken: string } } */
 export const login = async (userLoginDto) => {
     
     const connection = await new DatabaseProvider().getConnection();
@@ -73,8 +73,12 @@ export const login = async (userLoginDto) => {
         const isCorrectPassword = await new BcryptProvider().isCorrectPassword(userLoginDto.password, hashedPassword);
         if (!isCorrectPassword) throw new BadRequestException(`${userLoginDto.nickname} 의 비밀번호가 일치하지 않습니다.`);
 
+        const jwt = new JwtProvider().sign({ nickname: userLoginDto.nickname });
+
         connection.query(queryBulider.applyChanges());
         connection.release();
+
+        return { user: userLoginDto, accessToken: jwt };
         
     } catch(err) {
 
@@ -84,7 +88,5 @@ export const login = async (userLoginDto) => {
         throw err;
 
     }
-
-    return userLoginDto;
 
 }

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { BoardController } from '../controllers/_.export.js';
+import { accessGuard, refreshGuard } from '../../modules/_.loader.js';
 
 const boardRouter = Router();
 
-
 boardRouter.route('')
     .get(BoardController.getAllBoard)
-    .post(BoardController.postBoard);
+    .post(accessGuard, BoardController.postBoard);
 
 boardRouter.route('/:boardId')
     .get(BoardController.getBoardById)
