@@ -39,10 +39,7 @@ export default class CommentDto extends CommentEntity {
         return this.commentId;
     }
 
-    /**
-     * @override
-     * @returns {{ commentId: Joi.number, author: Joi.string.required, context: Joi.string.required }} joiInstance
-     */
+    /** @override @returns {{ commentId: Joi.NumberSchema, author: Joi.StringSchema, context: Joi.StringSchema } } */
     _getJoiInstance() {
         return {
             commentId: Joi.number(),

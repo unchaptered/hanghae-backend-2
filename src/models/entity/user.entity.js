@@ -28,8 +28,8 @@ export default class UserEntity extends BaseEntity {
      */
     _getJoiInstance() {
         return {
-            nickname: Joi.string().min(3).max(50),
-            password: Joi.string().min(4).max(30)
+            nickname: Joi.string().min(3).max(50).required(),
+            password: Joi.string().min(4).max(30).required()
         }
     }
 

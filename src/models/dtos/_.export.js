@@ -1,5 +1,5 @@
-import UserJoinDto from './user/user.login.dto.js';
-import UserLoginDto from './user/user.join.dto.js';
+import UserLoginDto from './user/user.login.dto.js';
+import UserJoinDto from './user/user.join.dto.js';
 
 import BoardPostDto from './board/board.post.dto.js';
 import BoardPutDto from './board/board.put.dto.js';

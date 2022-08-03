@@ -45,10 +45,7 @@ export default class BoardDto extends BoardEntity {
         return this.boardId;
     }
 
-    /**
-     * @override
-     * @returns { {  boardId: Joi.number, author: Joi.string, title: Joi.string, context: Joi.string } } joiInstance
-     */
+    /** @override @returns { {  boardId: Joi.NumberSchema, author: Joi.StringSchema, title: Joi.StringSchema, context: Joi.StringSchema } } */
     _getJoiInstance() {
         return {
             boardId: Joi.number(),

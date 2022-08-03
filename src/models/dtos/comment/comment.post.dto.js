@@ -24,10 +24,7 @@ export default class CommentPostDto extends CommentEntity {
 
     }
 
-    /**
-     * @override
-     * @returns {{ author: Joi.string.required, context: Joi.string.required }} joiInstance
-     */
+    /** @override @returns {{ author: Joi.StringSchema, context: Joi.StringSchema }} */
     _getJoiInstance() {
         return {
             author: Joi.string().min(1).max(50).required(),
