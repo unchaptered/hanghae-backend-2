@@ -20,10 +20,7 @@ export default class DatabaseProvider extends BaseModule {
         super();
     }
 
-    /**
-     * @param { DatabaseEnv } databaseEnv 
-     * @returns { mysql.Pool } pool
-     */
+    /** @param { DatabaseEnv } databaseEnv @returns { mysql.Pool } pool */
     static getConnection(databaseEnv) {
 
         if (this.pool) return this.pool;
