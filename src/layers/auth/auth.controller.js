@@ -15,22 +15,14 @@ export const join = async (req, res, next) => {
     try {
 
         const userJoinDto = new UserJoinDto({ ...req.body });
-        const userJoi = userJoinDto._getJoiInstance();
         
-        const joiValidator = new JoiValidator();
-
-        await joiValidator.validate(userJoinDto, {
-            nickname: userJoi.nickname.required(),
-            password: userJoi.password.required(),
-            passwordConfirm: Joi.ref('password')
-        });
+        await new JoiValidator().validate(userJoinDto, userJoinDto._getJoiInstance());
 
         const result = await AuthService.join(userJoinDto);
-        
-        const formFactory = new FormFactory();
-        return res.json(
-            formFactory.getSuccessForm('회원가입에 성공하셨습니다.', result ));
 
+        return res.json(
+            new FormFactory().getSuccessForm('회원가입에 성공하셨습니다.', result ));
+            
     } catch (err) {
 
         console.log(err);
@@ -49,19 +41,13 @@ export const login = async (req, res, next) => {
     try {
 
         const userLoginDto = new UserLoginDto({ ...req.body });
-        const userJoi = userLoginDto._getJoiInstance();
 
-        const joiValidator = new JoiValidator();
-        await joiValidator.validate(userLoginDto, {
-            nickname: userJoi.nickname.required(),
-            password: userJoi.password.required()
-        });
+        await new JoiValidator().validate(userLoginDto, userLoginDto._getJoiInstance());
 
         const result = await AuthService.login(userLoginDto);
 
-        const formFactory = new FormFactory();
         return res.json(
-            formFactory.getSuccessForm('로그인에 성공하셨습니다.', result ));
+            new FormFactory().getSuccessForm('로그인에 성공하셨습니다.', result ));
 
     } catch (err) {
 

@@ -19,6 +19,7 @@ export const postBoard = async (req, res, next) => {
     try {
 
         const boardPostDto = new BoardPostDto({ ...req.body });
+
         await new JoiValidator().validate(boardPostDto, boardPostDto._getJoiInstance());
 
         const result = await BoardService.postBoard(boardPostDto);
@@ -44,12 +45,11 @@ export const getBoardById = async (req, res, next) => {
      
         const { boardId } = req.params;
 
-        const joiValidator = new JoiValidator();
-        const result = await joiValidator.validate({ boardId }, { boardId: Joi.number() });
+        await new JoiValidator().validate({ boardId }, { boardId: Joi.number() });
         
         const formFactory = new FormFactory();
         return res.json(
-            formFactory.getSuccessForm('게시글 불러오기에 성공했습니다.', result));
+            formFactory.getSuccessForm('게시글 불러오기에 성공했습니다.', boardId ));
 
     } catch(err) {
 
@@ -69,8 +69,7 @@ export const putBoardById = async (req, res, next) => {
         const boardPutDto = new BoardPutDto({ ...req.body });
         boardPutDto.setBoardId = +req.params.boardId;
         
-        const joiValidator = new JoiValidator();
-        await joiValidator.validate(boardPutDto, boardPutDto._getJoiInstance());
+        await new JoiValidator().validate(boardPutDto, boardPutDto._getJoiInstance());
 
         const result = await BoardService.putBoardById(boardPutDto);
         
@@ -94,8 +93,7 @@ export const delBoardById = async (req, res, next) => {
      
         const { boardId } = req.params;
 
-        const joiValidator = new JoiValidator();
-        const result = await joiValidator.validate({ boardId }, { boardId: Joi.number() });
+        const result = await new JoiValidator().validate({ boardId }, { boardId: Joi.number() });
         
         const formFactory = new FormFactory();
         return res.json(
@@ -113,5 +111,7 @@ export const delBoardById = async (req, res, next) => {
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const increaseBoardLike = (req, res, next) => {
+
     return res.json('increase board like');
+    
 }

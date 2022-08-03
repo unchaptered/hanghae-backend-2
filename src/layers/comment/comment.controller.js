@@ -15,13 +15,14 @@ export const postComment = async (req, res, next) => {
     try {
 
         const commentPostDto = new CommentPostDto({ ...req.body });
+
         await new JoiValidator().validate(commentPostDto, commentPostDto._getJoiInstance());
         
         const result = await CommentService.postComment(commentPostDto);
         
-        const formFactory = new FormFactory();
+
         return res.json(
-            formFactory.getSuccessForm('댓글 작성에 성공하셨습니다.', result));
+            new FormFactory().getSuccessForm('댓글 작성에 성공하셨습니다.', result));
 
     } catch (err) {
         
@@ -41,14 +42,13 @@ export const putCommentByCommentId = async (req, res, next) => {
         const commentPutDto = new CommentPutDto({ ...req.body });
         commentPutDto.setCommentId = req.params.commentId;
 
-        const joiValidator = new JoiValidator();
-        await joiValidator.validate(commentPutDto, commentPutDto._getJoiInstance());
+        await new JoiValidator().validate(commentPutDto, commentPutDto._getJoiInstance());
 
         const result = await CommentService.putCommentByCommentId(commentPutDto);
 
-        const formFactory = new FormFactory();
+
         return res.json(
-            formFactory.getSuccessForm('댓글 수정에 성공했습니다.', result));
+            new FormFactory().getSuccessForm('댓글 수정에 성공했습니다.', result));
 
         
     } catch (err) {
@@ -67,12 +67,11 @@ export const delCommentByComment = async (req, res, next) => {
 
         const { commentId } = req.params;
         
-        const joiValidator = new JoiValidator();
-        const result = await joiValidator.validate({ commentId }, { commentId: Joi.number() });
+        await new JoiValidator().validate({ commentId }, { commentId: Joi.number() });
         
-        const formFactory = new FormFactory();
+
         return res.json(
-            formFactory.getSuccessForm('댓글 삭제에 성공했습니다.', result));
+            new FormFactory().getSuccessForm('댓글 삭제에 성공했습니다.', commentId ));
 
     } catch(err) {
         
