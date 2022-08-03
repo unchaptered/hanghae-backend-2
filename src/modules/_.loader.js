@@ -17,6 +17,8 @@ import CommentQueryBuilder from './builder/comment.query.builder.js';
 import { exceptionHandler } from './handlers/exception.handler.js';
 import { exceptionMiddleware } from './middlewares/exception.middleware.js';
 
+import { accessGuard } from './middlewares/guards/access.guard.js';
+import { refreshGuard } from './middlewares/guards/refresh.guard.js';
 
 export {
 
@@ -37,5 +39,8 @@ export {
 
     exceptionHandler,
     exceptionMiddleware,
+
+    accessGuard,
+    refreshGuard,
 
 }
