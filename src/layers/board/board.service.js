@@ -156,3 +156,40 @@ export const delBoardByDto = async (boardFkDto) => {
     }
 
 }
+
+/**
+ * @param { BoardFkValuesDto } boardDeleteDto
+ * @returns { Promise<{ boardFkDto: BoardFkValuesDto, isLikeUp: boolean }> }
+ */
+export const increaseBoardLike = async (boardFkDto) => {
+
+    const connection = await new DatabaseProvider().getConnection();
+
+    try {
+        const isExistsUser = await AuthRepository.isExistsUser(connection, boardFkDto.author);
+        if (!isExistsUser) throw new UnauthorizedException(`${boardFkDto.author} 라는 이름의 사용자는 존재하지 않습니다.`);
+
+        const isExistsBoard = await BoardRepository.isExistsBoard(connection, boardFkDto.getBoardId);
+        if (!isExistsBoard) throw new NotFoundException('존재하지 않는 게시글입니다.');
+
+        const result = await BoardRepository.toggleBoardLike(connection, boardFkDto);
+        if (!result.isSuccess) throw new UnkownServerError('알 수 없는 에러로 좋아요에 실패하였습니다.'); 
+        
+        await connection.rollback();
+        connection.destroy();
+
+        return {
+            boardFkDto: boardFkDto,
+            isLikeUp: result.isLikeUp
+        };
+
+    } catch(err) {
+
+        await connection.rollback();
+        connection.destroy();
+
+        throw exceptionHandler(err);
+        
+    }
+
+};

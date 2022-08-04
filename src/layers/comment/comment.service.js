@@ -1,6 +1,6 @@
 // Models
 import { NotFoundException, UnauthorizedException, UnkownServerError } from '../../models/_.loader.js';
-import { CommentDeleteDto, CommentDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
+import { CommentDto, CommentFkValuesDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
 
 // Modules
 import { DatabaseProvider, exceptionHandler } from '../../modules/_.loader.js';
@@ -72,7 +72,7 @@ export const putCommentByDto = async (commentPutDto) => {
     const connection = await new DatabaseProvider().getConnection();
 
     try {
-
+        
         await connection.beginTransaction();
         
         const isExistsUser = await AuthRepository.isExistsUser(connection, commentPutDto.author);
@@ -104,10 +104,10 @@ export const putCommentByDto = async (commentPutDto) => {
 }
 
 /**
- * @param { CommentDeleteDto } commentDeleteDto
+ * @param { CommentFkValuesDto } commentFkDto
  * @returns { Promise<CommentDeleteDto> }
  */
- export const delCommentByDto = async (commentDeleteDto) => {
+ export const delCommentByDto = async (commentFkDto) => {
     
     const connection = await new DatabaseProvider().getConnection();
     
@@ -115,22 +115,22 @@ export const putCommentByDto = async (commentPutDto) => {
         
         await connection.beginTransaction();
 
-        const isExistsUser = await AuthRepository.isExistsUser(connection, commentDeleteDto.author);
+        const isExistsUser = await AuthRepository.isExistsUser(connection, commentFkDto.author);
         if (!isExistsUser) throw new UnauthorizedException(`${boardPutDto.author} 라는 이름의 사용자는 존재하지 않습니다.`);
 
-        const isExistsBoard = await BoardRepository.isExistsBoard(connection, commentDeleteDto.boardId);
+        const isExistsBoard = await BoardRepository.isExistsBoard(connection, commentFkDto.boardId);
         if (!isExistsBoard) throw new NotFoundException('존재하지 않는 게시글입니다.');
 
-        const isExistsComment = await CommentRepository.isExistsComment(connection, commentDeleteDto.commentId);
+        const isExistsComment = await CommentRepository.isExistsComment(connection, commentFkDto.commentId);
         if (!isExistsComment) throw new NotFoundException('존재하지 않는 댓글입니다.');
 
-        const isDeleted = await CommentRepository.deleteComment(connection, commentDeleteDto);
+        const isDeleted = await CommentRepository.deleteComment(connection, commentFkDto);
         if (!isDeleted.isSuccess) throw new UnkownServerError(`알 수 없는 이유로 댓글 수정에 실패하였습니다.`);
         
         await connection.commit();
         connection.destroy();
 
-        return commentDeleteDto;
+        return commentFkDto;
 
     } catch (err) {
 
@@ -141,4 +141,43 @@ export const putCommentByDto = async (commentPutDto) => {
 
     }
 
+}
+
+/**
+ * @param { CommentFkValuesDto } commentFkDto
+ * @returns { Promise<{ commentFkDto: BoardFkValuesDto, isLikeUp: boolean }> }
+ */
+export const increaseCommentLike = async (commentFkDto) => {
+
+    const connection = await new DatabaseProvider().getConnection();
+
+    try {
+        
+        const isExistsUser = await AuthRepository.isExistsUser(connection, commentFkDto.author);
+        if (!isExistsUser) throw new UnauthorizedException(`${commentFkDto.author} 라는 이름의 사용자는 존재하지 않습니다.`);
+        
+        const isExistsBoard = await BoardRepository.isExistsBoard(connection, commentFkDto.boardId);
+        if (!isExistsBoard) throw new NotFoundException('존재하지 않는 게시글입니다.');
+        
+        const result = await CommentRepository.toggleCommentLike(connection, commentFkDto);
+        if (!result.isSuccess) throw new UnkownServerError('알 수 없는 에러로 좋아요에 실패하였습니다.'); 
+
+        await connection.rollback();
+        connection.destroy();
+
+        return {
+            commentFkDto: commentFkDto,
+            isLikeUp: result.isLikeUp
+        };
+
+    } catch(err) {
+
+        await connection.rollback();
+        connection.destroy();
+
+        throw exceptionHandler(err);
+        
+    }
+
+    
 }

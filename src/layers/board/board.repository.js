@@ -54,7 +54,7 @@ export const createBoard = async (connection, board) => {
     
     return result[0]?.affectedRows === 1
         ? { boardId: result[0].insertId }
-        : { boardId: null }
+        : { boardId: null };
 
 }
 
@@ -71,7 +71,7 @@ export const updateBoard = async (connection, board) => {
 
     return result[0]?.affectedRows === 1
         ? { isSuccess: true }
-        : { isSuccess: false }
+        : { isSuccess: false };
 
 }
 
@@ -86,6 +86,29 @@ export const deleteBoard = async (connection, board) => {
 
     return result[0]?.affectedRows === 1
         ? { isSuccess: true }
-        : { isSuccess: false }
+        : { isSuccess: false };
 
 };
+
+/**
+ * @param { PoolConnection } connection
+ * @param { BoardFkValuesDto } board
+ * @returns { Promise<{ isSuccess: boolean, isLikeUp: boolean | null }> }
+ */
+export const toggleBoardLike = async (connection, board) => {
+
+    const isLikedResult = await connection.query(`SELECT * FROM board_like_list WHERE board_id = ${board.boardId};`);
+    const toggler = {
+        true: async (connection, board) => await connection.query(`DELETE FROM board_like_list WHERE board_id = ${board.boardId} AND author = '${board.author}';`),
+        false: async (connection, board) => await connection.query(`INSERT INTO board_like_list (board_id, author) VALUES (${board.boardId}, '${board.author}');`)
+    };
+
+    // isLikedResult[0].length 가 1이라는 뜻은, 좋아요가 눌러져 있는 상태이며 따라서 true 로 반환하였다.
+    const isLiked = new Boolean(isLikedResult[0].length);
+    const result = await toggler[isLiked](connection, board);
+
+    return result[0]?.affectedRows === 1
+        ? { isSuccess: true, isLikeUp: !isLiked.valueOf() }
+        : { isSuccess: false, isLikeUp: null };
+
+}

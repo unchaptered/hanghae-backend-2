@@ -9,4 +9,6 @@ coverage/
 *.env.*
 .gitignore
 
+aws.*?.md
+
 !src/models/env/*.env.js

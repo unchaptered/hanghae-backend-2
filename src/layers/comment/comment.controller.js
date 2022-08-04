@@ -1,5 +1,5 @@
 // Models
-import { CommentDeleteDto, CommentDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
+import { CommentFkValuesDto, CommentDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
 
 // Modules
 import { CommentService } from '../_.layer.loader.js';
@@ -99,12 +99,11 @@ export const delCommentByComment = async (req, res, next) => {
 
     try {
 
-        const commentDeleteDto = new CommentDeleteDto({ ...req.params, ...req.body });
-        console.log(commentDeleteDto);
+        const commentFkDto = new CommentFkValuesDto({ ...req.params, ...req.body });
         
-        await new JoiValidator().validate(commentDeleteDto, commentDeleteDto._getJoiInstance());
+        await new JoiValidator().validate(commentFkDto, commentFkDto._getJoiInstance());
         
-        const result = await CommentService.delCommentByDto(commentDeleteDto);
+        const result = await CommentService.delCommentByDto(commentFkDto);
 
         return res.json(
             new FormFactory().getSuccessForm('댓글 삭제에 성공했습니다.', result));
@@ -119,7 +118,30 @@ export const delCommentByComment = async (req, res, next) => {
 
 }
 
-/** @param { Request } req @param { Response } res @param { NextFunction } next */
+/**
+ * `accessGuard` 를 사용 중입니다.
+ * 자동으로 req.body.author 가 생성됩니다.
+ * 
+ * @param { Request } req @param { Response } res @param { NextFunction } next */
 export const increaseCommetLikeByCommentId = async (req, res, next) => {
+
+    try {
+
+        const commentFkDto = new CommentFkValuesDto({ ...req.params, ...req.body });
+    
+        await new JoiValidator().validate(commentFkDto, commentFkDto._getJoiInstance());
+
+        const { commentFkDto: commentFkDtoResult, isLikeUp} = await CommentService.increaseCommentLike(commentFkDto);
+        return res.json(
+            new FormFactory().getSuccessForm(`게시글 좋아요가 ${isLikeUp ? '+ 1' : '- 1'} 되었습니다.`, { ...commentFkDtoResult, isLikeUp }));
+
+    } catch(err) {
+
+        res.locals.error = err;
+
+        return next();
+
+    }
+
 }
 

@@ -2,11 +2,11 @@ import Joi from 'joi';
 
 // Models
 import { BoardEntity } from '../../models/entity/_.export.js';
-import { BoardFkValuesDto, BoardDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
+import { BoardDto, BoardFkValuesDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
 
 // Modules
 import { BoardService } from '../_.layer.loader.js';
-import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
+import { FormFactory, JoiValidator, JwtProvider } from '../../modules/_.loader.js';
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const getAllBoard = async (req, res, next) => {
@@ -67,9 +67,8 @@ export const getBoardById = async (req, res, next) => {
 
         const result = await BoardService.getBoardById(boardId);
         
-        const formFactory = new FormFactory();
         return res.json(
-            formFactory.getSuccessForm('게시글 불러오기에 성공했습니다.', result));
+            new FormFactory().getSuccessForm('게시글 불러오기에 성공했습니다.', result));
 
     } catch(err) {
 
@@ -97,9 +96,8 @@ export const putBoardById = async (req, res, next) => {
 
         const result = await BoardService.putBoardById(boardPutDto);
         
-        const formFactory = new FormFactory();
         return res.json(
-            formFactory.getSuccessForm('게시글 수정에 성공했습니다.', result));
+            new FormFactory().getSuccessForm('게시글 수정에 성공했습니다.', result));
 
     } catch(err) {
 
@@ -123,15 +121,14 @@ export const delBoardById = async (req, res, next) => {
             params: { boardId },
             body: { author }
         } = req;
-        const boardDeleteDto = new BoardFkValuesDto({ boardId, author });
+        const boardFkDto = new BoardFkValuesDto({ boardId, author });
 
-        await new JoiValidator().validate(boardDeleteDto, boardDeleteDto._getJoiInstance());
+        await new JoiValidator().validate(boardFkDto, boardFkDto._getJoiInstance());
 
-        await BoardService.delBoardByDto(boardDeleteDto);
+        await BoardService.delBoardByDto(boardFkDto);
         
-        const formFactory = new FormFactory();
         return res.json(
-            formFactory.getSuccessForm('게시글 삭제에 성공했습니다.', boardDeleteDto));
+            new FormFactory().getSuccessForm('게시글 삭제에 성공했습니다.', boardFkDto));
 
     } catch(err) {
 
@@ -144,13 +141,28 @@ export const delBoardById = async (req, res, next) => {
 }
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
-export const increaseBoardLike = (req, res, next) => {
+export const increaseBoardLike = async (req, res, next) => {
 
-    const {
-        params: { boardId },
-        body: { author }
-    } = req;
+    try {
 
-    return res.json('increase board like');
+        const {
+            params: { boardId },
+            body: { author }
+        } = req;
+        const boardFkDto = new BoardFkValuesDto({ boardId, author });
+    
+        await new JoiValidator().validate(boardFkDto, boardFkDto._getJoiInstance());
+
+        const { boardFkDto: boardFkDtoResult, isLikeUp } = await BoardService.increaseBoardLike(boardFkDto);
+        return res.json(
+            new FormFactory().getSuccessForm(`게시글 좋아요가 ${isLikeUp ? '+ 1' : '- 1'} 되었습니다.`, { ...boardFkDtoResult, isLikeUp }));
+
+    } catch(err) {
+
+        res.locals.error = err;
+
+        return next();
+
+    }
     
 }

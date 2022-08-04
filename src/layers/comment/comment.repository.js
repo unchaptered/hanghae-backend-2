@@ -1,5 +1,5 @@
 import { PoolConnection } from 'mysql2';
-import { CommentDeleteDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
+import { CommentFkValuesDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
 import { QueryBuilder, BoardQueryBuilder, DatabaseProvider } from '../../modules/_.loader.js';
 
 /**
@@ -59,7 +59,7 @@ export const updateComment = async (connection, comment) => {
 /**
  * 
  * @param { PoolConnection } connection 
- * @param { CommentDeleteDto } comment 
+ * @param { CommentFkValuesDto } comment 
  * @returns { Promise<{ isSuccess: boolean }> }
  */
 export const deleteComment = async (connection, comment) => {
@@ -71,3 +71,26 @@ export const deleteComment = async (connection, comment) => {
         : { isSuccess: false }
         
 };
+
+/**
+ * @param { PoolConnection } connection
+ * @param { CommentFkValuesDto } comment
+ * @returns { Promise<{ isSuccess: boolean, isLikeUp: boolean | null }> }
+ */
+export const toggleCommentLike = async (connection, comment) => {
+
+    const isLikedResult = await connection.query(`SELECT * FROM comment_like_list WHERE comment_id = ${comment.commentId};`);
+    const toggler = {
+        true: async (connection, comment) => await connection.query(`DELETE FROM comment_like_list WHERE comment_id = ${comment.commentId} AND author = '${comment.author}';`),
+        false: async (connection, comment) => await connection.query(`INSERT INTO comment_like_list (comment_id, author) VALUES (${comment.commentId}, '${comment.author}');`)
+    };
+
+    // isLikedResult[0].length 가 1이라는 뜻은, 좋아요가 눌러져 있는 상태이며 따라서 true 로 반환하였다.
+    const isLiked = new Boolean(isLikedResult[0].length);
+    const result = await toggler[isLiked](connection, comment);
+
+    return result[0]?.affectedRows === 1
+        ? { isSuccess: true, isLikeUp: !isLiked.valueOf() }
+        : { isSuccess: false, isLikeUp: null };
+
+}
