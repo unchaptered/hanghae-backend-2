@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS board_like_list (
 
     board_like_list	SERIAL			NOT NULL    PRIMARY KEY,
     board_id     	INTEGER         NOT NULL	REFERENCES board(board_id),
-    author   	    VARCHAR(50)     NOT NULL    REFERENCES note(note_id)
+    author   	    VARCHAR(50)     NOT NULL    REFERENCES user(nickname)
     
 );
 
@@ -47,6 +47,6 @@ CREATE TABLE IF NOT EXISTS comment_like_list (
 
 	comment_like_list	SERIAL			NOT NULL	PRIMARY KEY,
     comment_id     	INTEGER         NOT NULL	REFERENCES comment(comment_id),
-    author   	    VARCHAR(50)     NOT NULL    REFERENCES note(note_id)
+    author   	    VARCHAR(50)     NOT NULL    REFERENCES user(nickname)
     
 );
