@@ -25,8 +25,6 @@ export const join = async (req, res, next) => {
             
     } catch (err) {
 
-        console.log(err);
-
         res.locals.error = err;
 
         return next();
@@ -73,7 +71,7 @@ export const myProfile = (req, res, next) => {
 
     const formFactory = new FormFactory();
 
-    return res.json(formFactory.getSuccessForm('myProfile'));
+    return res.json(formFactory.getSuccessForm('미구현 항목'));
 
 };
 
@@ -82,7 +80,7 @@ export const myBoard = (req, res, next) => {
 
     const formFactory = new FormFactory();
 
-    return res.json(formFactory.getSuccessForm('myBoard'));
+    return res.json(formFactory.getSuccessForm('미구현 항목'));
 
 };
 
@@ -91,6 +89,6 @@ export const myComment = (req, res, next) => {
 
     const formFactory = new FormFactory();
 
-    return res.json(formFactory.getSuccessForm('myComment'));
+    return res.json(formFactory.getSuccessForm('미구현 항목'));
 
 };
