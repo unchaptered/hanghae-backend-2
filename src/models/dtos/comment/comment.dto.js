@@ -7,6 +7,7 @@ import { CommentEntity } from '../../entity/_.export.js';
  * @extends CommentDto
  * @method _getJoiInstance
  * @property { number } commentId
+ * @property { number } boardId
  * @property { string } author
  * @property { string } context
  */
@@ -15,6 +16,9 @@ export default class CommentDto extends CommentEntity {
     /** @type { number } commentId */
     commentId;
 
+    /** @type { number } boardId */
+    boardId;
+
     /** @type { string } author */
     author;
 
@@ -22,8 +26,12 @@ export default class CommentDto extends CommentEntity {
     context;
 
     /** @param {{ author: string, context: string }} ICommentDto */
-    constructor({ author, context }) {
+    constructor({ author, context, boardId, commentId }) {
 
+        super({ author, context });
+
+        this.commentId = commentId;
+        this.boardId = boardId;
         this.author = author;
         this.context = context;
 
@@ -43,6 +51,7 @@ export default class CommentDto extends CommentEntity {
     _getJoiInstance() {
         return {
             commentId: Joi.number(),
+            boardId: Joi.number(),
             author: Joi.string().min(1).max(50).required(),
             context: Joi.string().min(1).max(300).required()
         }

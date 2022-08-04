@@ -7,6 +7,7 @@ import BoardDeleteDto from './board/board.delete.dto.js';
 
 import CommentPostDto from './comment/comment.post.dto.js';
 import CommentPutDto from './comment/comment.put.dto.js';
+import CommentDeleteDto from './comment/comment.delete.dto.js';
 
 // @depreacated dtos...
 import BoardDto from './board/board.dto.js';
@@ -24,6 +25,7 @@ export {
     
     CommentDto,
     CommentPostDto,
-    CommentPutDto
+    CommentPutDto,
+    CommentDeleteDto
     
 }
