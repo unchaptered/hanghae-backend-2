@@ -2,6 +2,9 @@ import { JwtProvider } from '../../../modules/_.loader.js';
 import { FormFactory } from '../../_.loader.js';
 
 /**
+ * req.headers.authorization 에 담긴 토큰이 유효하면,
+ * req.body.userId 을 채워넣습니다.
+ * 
  * @param { Request } req 
  * @param { Response } res 
  * @param { NextFunction } next 
