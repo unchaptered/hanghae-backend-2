@@ -29,10 +29,7 @@ export default class BoardPostDto extends BoardEntity {
 
     }
 
-    /**
-     * @override
-     * @returns { {  author: Joi.string, title: Joi.string, context: Joi.string } } joiInstance
-     */
+    /** @override @returns { {  author: Joi.StringSchema, title: Joi.StringSchema, context: Joi.StringSchema } } */
     _getJoiInstance() {
         return {
             author: Joi.string().min(1).max(50).required(),

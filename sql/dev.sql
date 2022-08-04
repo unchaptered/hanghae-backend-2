@@ -28,15 +28,16 @@ CREATE TABLE IF NOT EXISTS board (
 
 CREATE TABLE IF NOT EXISTS board_like_list (
 
-	board_like_list	SERIAL			PRIMARY KEY,
+    board_like_list	SERIAL			NOT NULL    PRIMARY KEY,
     board_id     	INTEGER         NOT NULL	REFERENCES board(board_id),
-    like_list   	JSON
+    user_id   	    INTEGER         NOT NULL    REFERENCES note(note_id)
     
 );
 
 CREATE TABLE IF NOT EXISTS comment (
 
     comment_id  		SERIAL          NOT NULL 	PRIMARY KEY,
+    board_id            INTEGER         NOT NULL    REFERENCES board (board_id),
     author      		VARCHAR(50)     NOT NULL	REFERENCES user (nickname),
     context     		VARCHAR(100)    NOT NULL
     

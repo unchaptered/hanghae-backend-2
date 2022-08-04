@@ -1,13 +1,16 @@
-import { BadRequestException, ConflictException, CustomException, UnkownServerError } from '../../models/_.loader.js';
+// Models
 import { UserJoinDto, UserLoginDto } from '../../models/dtos/_.export.js';
-import { DatabaseProvider, BcryptProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
+import { BadRequestException, ConflictException, UnkownServerError } from '../../models/_.loader.js';
+
+// Modules
+import { DatabaseProvider, BcryptProvider, JwtProvider, QueryBuilder, UserQueryBuilder } from '../../modules/_.loader.js';
 
 /** @param { UserJoinDto } userJoinDto */
 export const join = async (userJoinDto) => {
 
     const connection = await new DatabaseProvider().getConnection();
     const queryBulider = new QueryBuilder();
-    const userQueryBuilder = queryBulider.getUserQueryBulider();
+    const userQueryBuilder = new UserQueryBuilder();
 
     const bcryptProvider = new BcryptProvider();
     const hashedPassword = await bcryptProvider.hashPassword(userJoinDto.password)
@@ -46,13 +49,13 @@ export const join = async (userJoinDto) => {
 
 }
 
-/** @param { UserLoginDto } userLoginDto */
+/** @param { UserLoginDto } userLoginDto @returns { { user: UserLoginDto, accessToken: string } } */
 export const login = async (userLoginDto) => {
     
     const connection = await new DatabaseProvider().getConnection();
 
     const queryBulider = new QueryBuilder();
-    const userQueryBuilder = queryBulider.getUserQueryBulider();
+    const userQueryBuilder = new UserQueryBuilder();
 
     const isExistsQuery = userQueryBuilder.isExists(userLoginDto.nickname);
     const getQuery = userQueryBuilder.getUser(userLoginDto.nickname);
@@ -73,8 +76,12 @@ export const login = async (userLoginDto) => {
         const isCorrectPassword = await new BcryptProvider().isCorrectPassword(userLoginDto.password, hashedPassword);
         if (!isCorrectPassword) throw new BadRequestException(`${userLoginDto.nickname} 의 비밀번호가 일치하지 않습니다.`);
 
+        const jwt = new JwtProvider().sign({ nickname: userLoginDto.nickname });
+
         connection.query(queryBulider.applyChanges());
         connection.release();
+
+        return { user: userLoginDto, accessToken: jwt };
         
     } catch(err) {
 
@@ -84,7 +91,5 @@ export const login = async (userLoginDto) => {
         throw err;
 
     }
-
-    return userLoginDto;
 
 }

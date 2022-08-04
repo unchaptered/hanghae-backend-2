@@ -2,8 +2,8 @@ import Express from 'express';
 import Morgan from 'morgan';
 
 import { exceptionMiddleware } from './modules/_.loader.js';
-import { GlobalController } from './layers/controllers/_.export.js';
-import { AuthRouter, BoardRouter, CommentRouter } from './layers/routers/_.export.js';
+import { GlobalController } from './layers/_.layer.loader.js';
+import { authRouter, boardRouter, commentRouter } from './layers/_.router.loader.js';
 
 /**
  * `App` class is craeted for single instance.
@@ -35,9 +35,9 @@ export default class App {
         this.app.use(Express.json());
         this.app.use(Express.urlencoded({ extended: true }));
 
-        this.app.use('/auth', AuthRouter);
-        this.app.use('/board', BoardRouter);
-        this.app.use('/comment', CommentRouter);
+        this.app.use('/auth', authRouter);
+        this.app.use('/board', boardRouter);
+        this.app.use('/comment', commentRouter);
         
         this.app.use(exceptionMiddleware);
 
