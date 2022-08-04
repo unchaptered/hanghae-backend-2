@@ -3,6 +3,7 @@ import UserJoinDto from './user/user.join.dto.js';
 
 import BoardPostDto from './board/board.post.dto.js';
 import BoardPutDto from './board/board.put.dto.js';
+import BoardDeleteDto from './board/board.delete.dto.js';
 
 import CommentPostDto from './comment/comment.post.dto.js';
 import CommentPutDto from './comment/comment.put.dto.js';
@@ -19,6 +20,7 @@ export {
     BoardDto,
     BoardPostDto,
     BoardPutDto,
+    BoardDeleteDto,
     
     CommentDto,
     CommentPostDto,
