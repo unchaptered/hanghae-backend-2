@@ -25,13 +25,15 @@ export default class BoardDto extends BoardEntity {
     /** @type { string } context */
     context;
 
-    constructor({ author, title, context }) {
+    /** @param { { boardId: number | undefined, author: string, title: string, context: string }} IBoardDto */
+    constructor({ author, title, context, boardId }) {
 
         super({ author, title, context });
 
         this.author = author;
         this.title = title;
         this.context = context;
+        this.boardId = boardId;
 
     }
     

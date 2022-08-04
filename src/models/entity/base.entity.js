@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { UnkownServerError } from '../_.loader.js';
+import { UnkownServerError, classIterator } from '../_.loader.js';
 
 /**
  * Entity 의 공용 메서드 재정의를 강요하기 위한, 슈퍼 클래스입니다.
@@ -8,7 +8,11 @@ import { UnkownServerError } from '../_.loader.js';
  */
 export default class BaseEntity {
 
-    constructor() {}
+    [Symbol.iterator];
+
+    constructor() {
+        this[Symbol.iterator] = classIterator;
+    }
 
     /**
      * 재정의를 강요하기 위해서 `UnkownServerError` 을 발생시킵니다.
