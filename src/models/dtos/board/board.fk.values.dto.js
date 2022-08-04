@@ -1,7 +1,7 @@
 import Joi from 'joi';
 import BaseEntity from '../../entity/base.entity.js';
 
-export default class BoardDeleteDto extends BaseEntity {
+export default class BoardFkValuesDto extends BaseEntity {
 
     /** @type { number } boardId */
     boardId;
@@ -9,7 +9,7 @@ export default class BoardDeleteDto extends BaseEntity {
     /** @type { string } author */
     author;
 
-    /** @param { { boardId: number, author: string } } IBoardDeleteDto */
+    /** @param { { boardId: number, author: string } } IBoardFkValuesDto */
     constructor({ boardId, author }) {
 
         super();
