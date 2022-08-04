@@ -10,8 +10,8 @@ boardRouter.route('')
 
 boardRouter.route('/:boardId')
     .get(BoardController.getBoardById)
-    .put(BoardController.putBoardById)
-    .delete(BoardController.delBoardById);
+    .put(accessGuard, BoardController.putBoardById)
+    .delete(accessGuard, BoardController.delBoardById);
 
 boardRouter.route('/:boardId/like')
     .patch(BoardController.increaseBoardLike);
