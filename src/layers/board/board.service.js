@@ -1,6 +1,6 @@
 // Models
 import { NotFoundException, UnauthorizedException, UnkownServerError } from '../../models/_.loader.js';
-import { BoardDeleteDto, BoardDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
+import { BoardFkValuesDto, BoardDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
 
 // Modules
 import { AuthRepository, BoardRepository } from '../_.layer.loader.js';
@@ -124,27 +124,27 @@ export const putBoardById = async (boardPutDto) => {
 }
 
 /**
- * @param { BoardDeleteDto } boardDeleteDto
- * @returns { Promise<BoardDeleteDto> }
+ * @param { BoardFkValuesDto } boardDeleteDto
+ * @returns { Promise<BoardFkValuesDto> }
  */
-export const delBoardByDto = async (boardDeleteDto) => {
+export const delBoardByDto = async (boardFkDto) => {
 
     const connection = await new DatabaseProvider().getConnection();
 
     try {
-        const isExistsUser = await AuthRepository.isExistsUser(connection, boardDeleteDto.author);
-        if (!isExistsUser) throw new UnauthorizedException(`${boardDeleteDto.author} 라는 이름의 사용자는 존재하지 않습니다.`);
+        const isExistsUser = await AuthRepository.isExistsUser(connection, boardFkDto.author);
+        if (!isExistsUser) throw new UnauthorizedException(`${boardFkDto.author} 라는 이름의 사용자는 존재하지 않습니다.`);
 
-        const isExistsBoard = await BoardRepository.isExistsBoard(connection, boardDeleteDto.getBoardId);
+        const isExistsBoard = await BoardRepository.isExistsBoard(connection, boardFkDto.getBoardId);
         if (!isExistsBoard) throw new NotFoundException('존재하지 않는 게시글입니다.');
 
-        const isDeleted = await BoardRepository.deleteBoard(connection, boardDeleteDto);
+        const isDeleted = await BoardRepository.deleteBoard(connection, boardFkDto);
         if (!isDeleted.isSuccess) throw new UnkownServerError('알 수 없는 에러로 삭제에 실패하였습니다.');
 
         await connection.commit();
         connection.destroy();
 
-        return boardDeleteDto;
+        return boardFkDto;
 
     } catch(err) {
 

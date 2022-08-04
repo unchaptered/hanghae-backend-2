@@ -14,7 +14,7 @@ boardRouter.route('/:boardId')
     .delete(accessGuard, BoardController.delBoardById);
 
 boardRouter.route('/:boardId/like')
-    .patch(BoardController.increaseBoardLike);
+    .patch(accessGuard, BoardController.increaseBoardLike);
 
 
 export default boardRouter;

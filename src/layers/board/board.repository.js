@@ -1,7 +1,7 @@
 import { PoolConnection } from 'mysql2';
 import { QueryBuilder, BoardQueryBuilder, DatabaseProvider } from '../../modules/_.loader.js';
 
-import { BoardDeleteDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
+import { BoardFkValuesDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
 
 
 /**
@@ -77,7 +77,7 @@ export const updateBoard = async (connection, board) => {
 
 /**
  * @param { PoolConnection } connection
- * @param { BoardDeleteDto } board
+ * @param { BoardFkValuesDto } board
  * @returns { Promise<{ isSuccess: boolean }> }
  */
 export const deleteBoard = async (connection, board) => {

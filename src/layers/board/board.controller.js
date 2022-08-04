@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 // Models
 import { BoardEntity } from '../../models/entity/_.export.js';
-import { BoardDeleteDto, BoardDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
+import { BoardFkValuesDto, BoardDto, BoardPostDto, BoardPutDto } from '../../models/dtos/_.export.js';
 
 // Modules
 import { BoardService } from '../_.layer.loader.js';
@@ -123,7 +123,7 @@ export const delBoardById = async (req, res, next) => {
             params: { boardId },
             body: { author }
         } = req;
-        const boardDeleteDto = new BoardDeleteDto({ boardId, author });
+        const boardDeleteDto = new BoardFkValuesDto({ boardId, author });
 
         await new JoiValidator().validate(boardDeleteDto, boardDeleteDto._getJoiInstance());
 
@@ -145,6 +145,11 @@ export const delBoardById = async (req, res, next) => {
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const increaseBoardLike = (req, res, next) => {
+
+    const {
+        params: { boardId },
+        body: { author }
+    } = req;
 
     return res.json('increase board like');
     
