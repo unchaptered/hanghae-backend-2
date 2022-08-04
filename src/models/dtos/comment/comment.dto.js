@@ -25,7 +25,7 @@ export default class CommentDto extends CommentEntity {
     /** @type { string } context */
     context;
 
-    /** @param {{ author: string, context: string }} ICommentDto */
+    /** @param {{ author: string, context: string, boardId: number, commentId: number }} ICommentDto */
     constructor({ author, context, boardId, commentId }) {
 
         super({ author, context });
