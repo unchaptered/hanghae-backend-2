@@ -1,15 +1,16 @@
 import { Router } from 'express';
 import { CommentController } from '../_.layer.loader.js';
+import { accessGuard, refreshGuard } from '../../modules/_.loader.js';
 
 const commentRouter = Router();
 
 commentRouter.route('')
     .get(CommentController.getAllCommentByBoardId)
-    .post(CommentController.postComment);
+    .post(accessGuard, CommentController.postComment);
 
 commentRouter.route('/:commentId')
-    .put(CommentController.putCommentByCommentId)
-    .delete(CommentController.delCommentByComment);
+    .put(accessGuard, CommentController.putCommentByCommentId)
+    .delete(accessGuard, CommentController.delCommentByComment);
 
 commentRouter.route('/:commentId/like')
     .patch(CommentController.increaseCommetLikeByCommentId);

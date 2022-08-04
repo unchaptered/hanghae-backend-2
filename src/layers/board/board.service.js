@@ -25,8 +25,6 @@ export const getBoards = async () => {
 
     }
 
-
-
 }
 
 /**
@@ -45,7 +43,7 @@ export const postBoard = async (boardPostDto) => {
         if (!isExistsUser) throw new UnauthorizedException(`${boardPostDto.author} 라는 이름의 사용자는 존재하지 않습니다.`);
 
         const createdBoard = await BoardRepository.createBoard(connection, boardPostDto);
-        if (createdBoard.boardId === null) throw new UnkownServerError(`알 수 없는 이유로 작성에 실패하였습니다.`);
+        if (createdBoard.boardId === null) throw new UnkownServerError(`알 수 없는 이유로 게시글 작성에 실패하였습니다.`);
         
         await connection.commit();
         connection.destroy();

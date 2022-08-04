@@ -1,5 +1,5 @@
 // Models
-import { CommentDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
+import { CommentDeleteDto, CommentDto, CommentPostDto, CommentPutDto } from '../../models/dtos/_.export.js';
 
 // Modules
 import { CommentService } from '../_.layer.loader.js';
@@ -9,7 +9,11 @@ import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
 export const getAllCommentByBoardId = async (req, res, next) => {
 }
 
-/** @param { Request } req @param { Response } res @param { NextFunction } next */
+/**
+ * `accessGuard` 를 사용 중입니다.
+ * 자동으로 req.body.author 가 생성됩니다.
+ * 
+ * @param { Request } req @param { Response } res @param { NextFunction } next */
 export const postComment = async (req, res, next) => {
 
     try {
@@ -34,7 +38,11 @@ export const postComment = async (req, res, next) => {
 
 }
 
-/** @param { Request } req @param { Response } res @param { NextFunction } next */
+/**
+ * `accessGuard` 를 사용 중입니다.
+ * 자동으로 req.body.author 가 생성됩니다.
+ *  
+ * @param { Request } req @param { Response } res @param { NextFunction } next */
 export const putCommentByCommentId = async (req, res, next) => {
 
     try {
@@ -42,9 +50,11 @@ export const putCommentByCommentId = async (req, res, next) => {
         const commentPutDto = new CommentPutDto({ ...req.body });
         commentPutDto.setCommentId = req.params.commentId;
 
+        console.log(commentPutDto);
+
         await new JoiValidator().validate(commentPutDto, commentPutDto._getJoiInstance());
 
-        const result = await CommentService.putCommentByCommentId(commentPutDto);
+        const result = await CommentService.putCommentByDto(commentPutDto);
 
 
         return res.json(
@@ -60,18 +70,24 @@ export const putCommentByCommentId = async (req, res, next) => {
     }
 }
 
-/** @param { Request } req @param { Response } res @param { NextFunction } next */
+/**
+ * `accessGuard` 를 사용 중입니다.
+ * 자동으로 req.body.author 가 생성됩니다.
+ *  
+ * @param { Request } req @param { Response } res @param { NextFunction } next */
 export const delCommentByComment = async (req, res, next) => {
 
     try {
 
-        const { commentId } = req.params;
+        const commentDeleteDto = new CommentDeleteDto({ ...req.params, ...req.body });
+        console.log(commentDeleteDto);
         
-        await new JoiValidator().validate({ commentId }, { commentId: Joi.number() });
+        await new JoiValidator().validate(commentDeleteDto, commentDeleteDto._getJoiInstance());
         
+        await CommentService.delCommentByDto(commentDeleteDto);
 
         return res.json(
-            new FormFactory().getSuccessForm('댓글 삭제에 성공했습니다.', commentId ));
+            new FormFactory().getSuccessForm('댓글 삭제에 성공했습니다.', commentDeleteDto ));
 
     } catch(err) {
         
