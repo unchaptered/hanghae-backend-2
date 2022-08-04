@@ -7,7 +7,7 @@ import BoardFkValuesDto from './board/board.fk.values.dto.js';
 
 import CommentPostDto from './comment/comment.post.dto.js';
 import CommentPutDto from './comment/comment.put.dto.js';
-import CommentDeleteDto from './comment/comment.delete.dto.js';
+import CommentFkValuesDto from './comment/comment.fk.values.dto.js';
 
 // @depreacated dtos...
 import BoardDto from './board/board.dto.js';
@@ -26,6 +26,6 @@ export {
     CommentDto,
     CommentPostDto,
     CommentPutDto,
-    CommentDeleteDto
+    CommentFkValuesDto
     
 }

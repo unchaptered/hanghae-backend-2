@@ -8,7 +8,7 @@ import { BaseEntity, CommentEntity } from '../../entity/_.export.js';
  * @property { number } boardId
  * @property { string } author
  */
-export default class CommentDeleteDto extends BaseEntity {
+export default class CommentFkValuesDto extends BaseEntity {
 
     /** @type { number } commentId */
     commentId;
@@ -31,7 +31,7 @@ export default class CommentDeleteDto extends BaseEntity {
 
     }
 
-    /** @override @returns {{ commentId: Joi.NumberSchema, boardId: Joi.NumberSchema, author: Joi.StringSchema, context: Joi.StringSchema }} */
+    /** @override @returns {{ commentId: Joi.NumberSchema, boardId: Joi.NumberSchema, author: Joi.StringSchema }} */
     _getJoiInstance() {
         return {
             commentId: Joi.number().required(),
