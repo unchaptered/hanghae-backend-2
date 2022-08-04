@@ -7,9 +7,28 @@ import { DatabaseProvider, exceptionHandler } from '../../modules/_.loader.js';
 import { AuthController, AuthRepository, BoardRepository, CommentRepository } from '../_.layer.loader.js';
 
 /**
- * @param { CommentPostDto } commentPostDto 
- * @returns { Promise<CommentPostDto> }
+ * @param { number } boardId
+ * @returns { Promise<CommentDto[]> }
  */
+export const getAllCommentByBoardId = async (boardId) => {
+
+    const connection = await new DatabaseProvider().getConnection();
+    
+    try {
+        
+        const comments = await CommentRepository.getAllCommentByBoardId(connection, boardId);
+
+        connection.destroy();
+        return comments.map(v => new CommentDto({ ...v }));
+
+    } catch (err) {
+
+        connection.destroy();
+        throw exceptionHandler(err);
+
+    }
+    
+}
 export const postComment = async (commentPostDto) => {
 
     const connection = await new DatabaseProvider().getConnection();

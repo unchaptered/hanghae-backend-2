@@ -13,6 +13,6 @@ commentRouter.route('/:commentId')
     .delete(accessGuard, CommentController.delCommentByComment);
 
 commentRouter.route('/:commentId/like')
-    .patch(CommentController.increaseCommetLikeByCommentId);
+    .patch(accessGuard, CommentController.increaseCommetLikeByCommentId);
 
 export default commentRouter;

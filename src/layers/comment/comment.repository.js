@@ -15,6 +15,14 @@ import { QueryBuilder, BoardQueryBuilder, DatabaseProvider } from '../../modules
 
 }
 
+export const getAllCommentByBoardId = async (connection, boardId) => {
+    
+    const result = await connection.query(`SELECT comment_id as commentId, board_id as boardId, author, context FROM comment WHERE board_id = ${boardId} LIMIT 10;`);
+
+    return result[0];
+    
+}
+
 /**
  * @param { PoolConnection } connection
  * @param { CommentPostDto } comment

@@ -4,9 +4,29 @@ import { CommentDeleteDto, CommentDto, CommentPostDto, CommentPutDto } from '../
 // Modules
 import { CommentService } from '../_.layer.loader.js';
 import { FormFactory, JoiValidator } from '../../modules/_.loader.js';
+import Joi from 'joi';
 
 /** @param { Request } req @param { Response } res @param { NextFunction } next */
 export const getAllCommentByBoardId = async (req, res, next) => {
+
+    try {
+
+        const { boardId } = req.body;
+
+        await new JoiValidator().validate({ boardId }, { boardId: Joi.number().required() });
+
+        const result = await CommentService.getAllCommentByBoardId(boardId);
+
+        return res.json(
+            new FormFactory().getSuccessForm('댓글 불러오기에 성공하셨습니다.', result));
+
+    } catch (err) {
+            
+        res.locals.error = err;
+
+        return next();
+
+    }
 }
 
 /**
@@ -84,10 +104,10 @@ export const delCommentByComment = async (req, res, next) => {
         
         await new JoiValidator().validate(commentDeleteDto, commentDeleteDto._getJoiInstance());
         
-        await CommentService.delCommentByDto(commentDeleteDto);
+        const result = await CommentService.delCommentByDto(commentDeleteDto);
 
         return res.json(
-            new FormFactory().getSuccessForm('댓글 삭제에 성공했습니다.', commentDeleteDto ));
+            new FormFactory().getSuccessForm('댓글 삭제에 성공했습니다.', result));
 
     } catch(err) {
         
