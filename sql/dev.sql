@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS board_like_list (
 CREATE TABLE IF NOT EXISTS comment (
 
     comment_id  		SERIAL          NOT NULL 	PRIMARY KEY,
+    board_id            INTEGER         NOT NULL    REFERENCES board (board_id),
     author      		VARCHAR(50)     NOT NULL	REFERENCES user (nickname),
     context     		VARCHAR(100)    NOT NULL
     
