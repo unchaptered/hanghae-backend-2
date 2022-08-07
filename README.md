@@ -1,6 +1,6 @@
 # 주특기 기본 주차 🎉 RESTful API 서버 (2)
 
-- 서버 IPv4 : -
+- 서버 IPv4 : 15.164.229.98
 - 해당 프로젝트는 [Boiler-Express](https://github.com/Boiler-Express/.github/blob/main/profile/BASIC-COURSE.md) 로 생성되었습니다.
 
 ![](./Layer.png)
